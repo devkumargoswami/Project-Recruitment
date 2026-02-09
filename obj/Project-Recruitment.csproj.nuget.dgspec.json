@@ -61,6 +61,18 @@
             "Microsoft.Data.SqlClient": {
               "target": "Package",
               "version": "[6.1.4, )"
+            },
+            "Swashbuckle.AspNetCore.Swagger": {
+              "target": "Package",
+              "version": "[10.1.2, )"
+            },
+            "Swashbuckle.AspNetCore.SwaggerGen": {
+              "target": "Package",
+              "version": "[10.1.2, )"
+            },
+            "Swashbuckle.AspNetCore.SwaggerUI": {
+              "target": "Package",
+              "version": "[10.1.2, )"
             }
           },
           "imports": [

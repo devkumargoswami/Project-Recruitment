@@ -70,3 +70,6 @@ C:\Users\goswa\OneDrive\Desktop\Project-Recruitment\Project-Recruitment\obj\Debu
 C:\Users\goswa\OneDrive\Desktop\Project-Recruitment\Project-Recruitment\obj\Debug\net10.0\Project-Recruitment.pdb
 C:\Users\goswa\OneDrive\Desktop\Project-Recruitment\Project-Recruitment\obj\Debug\net10.0\Project-Recruitment.genruntimeconfig.cache
 C:\Users\goswa\OneDrive\Desktop\Project-Recruitment\Project-Recruitment\obj\Debug\net10.0\ref\Project-Recruitment.dll
+C:\Users\goswa\OneDrive\Desktop\Project-Recruitment\Project-Recruitment\bin\Debug\net10.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\goswa\OneDrive\Desktop\Project-Recruitment\Project-Recruitment\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\goswa\OneDrive\Desktop\Project-Recruitment\Project-Recruitment\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll
