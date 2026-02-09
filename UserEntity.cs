@@ -1,23 +1,20 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Project_Recruitment
+namespace Project_Recruitment.Models
 {
     public class UserEntity
     {
         [Key]
-        public int UserId { get; set; }   // assuming PK exists
+        public int UserId { get; set; }   
 
-        [Required]
-        [MaxLength(50)]
+        [Required, MaxLength(50)]
         public string Username { get; set; }
 
-        [Required]
-        [MaxLength(50)]
+        [Required, MaxLength(50)]
         public string Password { get; set; }
 
-        [Required]
-        [MaxLength(100)]
+        [Required, MaxLength(100)]
         public string Email { get; set; }
 
         [MaxLength(20)]
@@ -25,6 +22,9 @@ namespace Project_Recruitment
 
         [MaxLength(20)]
         public string LastName { get; set; }
+
+        [MaxLength(20)]
+        public string Phonenumber { get; set; }   
 
         [Column("DataOfBirth")]
         public DateTime DateOfBirth { get; set; }
@@ -35,6 +35,5 @@ namespace Project_Recruitment
         public int RoleId { get; set; }
 
         public DateTime CreatedDateTime { get; set; }
-
     }
 }

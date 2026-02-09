@@ -1,7 +1,6 @@
 ﻿using Dapper;
-using Project_Recruitment;
+using Project_Recruitment.Models;
 using System.Data;
-using static Dapper.SqlMapper;
 
 namespace WebApplication1
 {
@@ -14,30 +13,58 @@ namespace WebApplication1
             _db = db;
         }
 
+        // 🔹 INSERT
         public void AddUser(UserEntity user)
-        {
-            if (string.IsNullOrWhiteSpace(user.Email))
-                throw new Exception("Email is required");
 
+        {
             var parameters = new DynamicParameters();
             parameters.Add("@Username", user.Username);
             parameters.Add("@Password", user.Password);
             parameters.Add("@Email", user.Email);
             parameters.Add("@FirstName", user.FirstName);
             parameters.Add("@LastName", user.LastName);
+            parameters.Add("@Phonenumber", user.Phonenumber);
             parameters.Add("@DateOfBirth", user.DateOfBirth);
             parameters.Add("@OfferCTC", user.OfferCTC);
+            parameters.Add("@RoleId", user.RoleId);
 
-            int status = _db.QuerySingle<int>(
-                "SP_User_Registration",
+            _db.Execute(
+                "SP_User_Insert",
                 parameters,
                 commandType: CommandType.StoredProcedure
             );
-
-            if (status == 0)
-                throw new Exception("Username or Email already exists");
         }
 
+        // 🔹 UPDATE
+        public void UpdateUser(UserEntity user)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@Id", user.UserId);
+            parameters.Add("@Username", user.Username);
+            parameters.Add("@Email", user.Email);
+            parameters.Add("@FirstName", user.FirstName);
+            parameters.Add("@LastName", user.LastName);
+            parameters.Add("@Phonenumber", user.Phonenumber);
+            parameters.Add("@RoleId", user.RoleId);
+
+            _db.Execute(
+                "SP_User_Update",
+                parameters,
+                commandType: CommandType.StoredProcedure
+            );
+        }
+
+        // 🔹 DELETE
+        public void DeleteUser(int id)
+        {
+            _db.Execute(
+                "SP_User_Delete",
+                new { Id = id },
+                commandType: CommandType.StoredProcedure
+            );
+        }
+
+        // 🔹 GET
         public IEnumerable<UserEntity> GetUsers()
         {
             return _db.Query<UserEntity>(
@@ -46,5 +73,4 @@ namespace WebApplication1
             );
         }
     }
-
 }
