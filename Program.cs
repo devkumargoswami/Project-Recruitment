@@ -1,27 +1,45 @@
 using Microsoft.Data.SqlClient;
 using System.Data;
+using Project_Recruitment;
+using WebApplication1;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// ======================
+// Add services
+// ======================
 
-builder.Services.AddScoped<IDbConnection>(sp =>
-        new SqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-
+// Controllers
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Dapper DB Connection
+builder.Services.AddScoped<IDbConnection>(sp =>
+    new SqlConnection(
+        builder.Configuration.GetConnectionString("DefaultConnection")
+    )
+);
+
+// Dependency Injection
+builder.Services.AddScoped<IUserrepositery, UserBusiness>();
+
+// ======================
+// Build app
+// ======================
+
 var app = builder.Build();
+
+// ======================
+// Middleware
+// ======================
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.MapOpenApi();
 }
 
 app.UseHttpsRedirection();

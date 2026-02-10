@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using Project_Recruitment;
+using Project_Recruitment.Models;
 using System.Data;
-using static Dapper.SqlMapper;
 
 namespace WebApplication1
 {
@@ -14,37 +14,110 @@ namespace WebApplication1
             _db = db;
         }
 
+        // =========================
+        // INSERT USER
+        // =========================
         public void AddUser(UserEntity user)
         {
+            if (string.IsNullOrWhiteSpace(user.Username))
+                throw new Exception("Username is required");
+
             if (string.IsNullOrWhiteSpace(user.Email))
                 throw new Exception("Email is required");
 
-            var parameters = new DynamicParameters();
-            parameters.Add("@Username", user.Username);
-            parameters.Add("@Password", user.Password);
-            parameters.Add("@Email", user.Email);
-            parameters.Add("@FirstName", user.FirstName);
-            parameters.Add("@LastName", user.LastName);
-            parameters.Add("@DateOfBirth", user.DateOfBirth);
-            parameters.Add("@OfferCTC", user.OfferCTC);
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@Username", user.Username);
+                parameters.Add("@Password", user.Password);
+                parameters.Add("@Email", user.Email);
+                parameters.Add("@FirstName", user.FirstName);
+                parameters.Add("@LastName", user.LastName);
+                parameters.Add("@Phonenumber", user.Phonenumber);
+                parameters.Add("@DateOfBirth", user.DateOfBirth);
+                parameters.Add("@OfferCTC", user.OfferCTC);
+                parameters.Add("@RoleId", user.RoleId);
 
-            int status = _db.QuerySingle<int>(
-                "SP_User_Registration",
-                parameters,
-                commandType: CommandType.StoredProcedure
-            );
-
-            if (status == 0)
-                throw new Exception("Username or Email already exists");
+                _db.Execute(
+                    "SP_User_Insert",
+                    parameters,
+                    commandType: CommandType.StoredProcedure
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error while inserting user", ex);
+            }
         }
 
+        // =========================
+        // UPDATE USER
+        // =========================
+        public void UpdateUser(UserEntity user)
+        {
+            if (user.UserId <= 0)
+                throw new Exception("Valid UserId is required for update");
+
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@Id", user.UserId);
+                parameters.Add("@Username", user.Username);
+                parameters.Add("@Email", user.Email);
+                parameters.Add("@FirstName", user.FirstName);
+                parameters.Add("@LastName", user.LastName);
+                parameters.Add("@Phonenumber", user.Phonenumber);
+                parameters.Add("@RoleId", user.RoleId);
+
+                _db.Execute(
+                    "SP_User_Update",
+                    parameters,
+                    commandType: CommandType.StoredProcedure
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error while updating user", ex);
+            }
+        }
+
+        // =========================
+        // DELETE USER
+        // =========================
+        public void DeleteUser(int id)
+        {
+            if (id <= 0)
+                throw new Exception("Valid UserId is required for delete");
+
+            try
+            {
+                _db.Execute(
+                    "SP_User_Delete",
+                    new { Id = id },
+                    commandType: CommandType.StoredProcedure
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error while deleting user", ex);
+            }
+        }
+
+        // =========================
+        // GET USERS
+        // =========================
         public IEnumerable<UserEntity> GetUsers()
         {
-            return _db.Query<UserEntity>(
-                "SP_User_List",
-                commandType: CommandType.StoredProcedure
-            );
+            try
+            {
+                return _db.Query<UserEntity>(
+                    "SELECT * FROM [User]"
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error while fetching users", ex);
+            }
         }
     }
-
 }
