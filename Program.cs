@@ -1,7 +1,7 @@
 using Microsoft.Data.SqlClient;
-using Project_Recruitment;
+using Project_Recruitment.Business;
+using Project_Recruitment.Interface;
 using System.Data;
-using WebApplication1;
 
 var builder = WebApplication.CreateBuilder(args);
 

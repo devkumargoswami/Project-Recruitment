@@ -1,8 +1,9 @@
 ﻿using Dapper;
-using Project_Recruitment;
+using Project_Recruitment.Entity;
+using Project_Recruitment.Interface;
 using System.Data;
 
-namespace WebApplication1
+namespace Project_Recruitment.Business
 {
     public class UserBusiness : IUserrepositery
     {

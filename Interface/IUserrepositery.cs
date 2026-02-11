@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Project_Recruitment.Entity;
+using System.Collections.Generic;
 
-namespace Project_Recruitment
+namespace Project_Recruitment.Interface
 {
     public interface IUserrepositery
     {
