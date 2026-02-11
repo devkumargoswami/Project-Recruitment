@@ -6,7 +6,7 @@ using System.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // ======================
-// Add services
+// ADD SERVICES
 // ======================
 
 // Controllers
@@ -16,25 +16,22 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Dapper DB Connection
+// Database Connection (Dapper)
 builder.Services.AddScoped<IDbConnection>(sp =>
     new SqlConnection(
         builder.Configuration.GetConnectionString("DefaultConnection")
     )
 );
 
+// Dependency Injection
 builder.Services.AddScoped<IUserrepositery, UserBusiness>();
 builder.Services.AddScoped<IExperience, ExperienceBusiness>();
-builder.Services.AddControllers();
 
-// Swagger setup
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
 // ======================
-// Middleware
+// MIDDLEWARE
 // ======================
 
 if (app.Environment.IsDevelopment())
