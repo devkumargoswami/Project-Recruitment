@@ -23,12 +23,12 @@ builder.Services.AddScoped<IDbConnection>(sp =>
     )
 );
 
-// Dependency Injection
-builder.Services.AddScoped<IUserrepositery, UserBusiness>();
 
-// ======================
-// Build app
-// ======================
+builder.Services.AddControllers();
+// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddOpenApi();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 

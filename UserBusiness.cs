@@ -1,6 +1,5 @@
 ﻿using Dapper;
 using Project_Recruitment;
-using Project_Recruitment.Models;
 using System.Data;
 
 namespace WebApplication1
@@ -33,7 +32,6 @@ namespace WebApplication1
                 parameters.Add("@Email", user.Email);
                 parameters.Add("@FirstName", user.FirstName);
                 parameters.Add("@LastName", user.LastName);
-                parameters.Add("@Phonenumber", user.Phonenumber);
                 parameters.Add("@DateOfBirth", user.DateOfBirth);
                 parameters.Add("@OfferCTC", user.OfferCTC);
                 parameters.Add("@RoleId", user.RoleId);
@@ -66,7 +64,7 @@ namespace WebApplication1
                 parameters.Add("@Email", user.Email);
                 parameters.Add("@FirstName", user.FirstName);
                 parameters.Add("@LastName", user.LastName);
-                parameters.Add("@Phonenumber", user.Phonenumber);
+   
                 parameters.Add("@RoleId", user.RoleId);
 
                 _db.Execute(

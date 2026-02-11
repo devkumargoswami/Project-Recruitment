@@ -1,6 +1,4 @@
-﻿using Project_Recruitment.Models;
-
-namespace Project_Recruitment
+﻿namespace Project_Recruitment
 {
     public interface IUserrepositery
     {
