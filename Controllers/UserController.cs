@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Project_Recruitment.Interface;
 
 namespace Project_Recruitment.Controllers
 {

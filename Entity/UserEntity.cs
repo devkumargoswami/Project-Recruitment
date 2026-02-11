@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Project_Recruitment
+namespace Project_Recruitment.Entity
 {
     public class UserEntity
     {
