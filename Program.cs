@@ -5,13 +5,24 @@ using System.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// ======================
+// Add services
+// ======================
 
-// Register IDbConnection for Dapper
+// Controllers
+builder.Services.AddControllers();
+
+// Swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+// Dapper DB Connection
 builder.Services.AddScoped<IDbConnection>(sp =>
-    new SqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")));
+    new SqlConnection(
+        builder.Configuration.GetConnectionString("DefaultConnection")
+    )
+);
 
-// Register UserBusiness as implementation of IUserrepositery
 builder.Services.AddScoped<IUserrepositery, UserBusiness>();
 builder.Services.AddScoped<IUserEducationRepository, UserEducationBusines>();
 
@@ -23,7 +34,10 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure middleware
+// ======================
+// Middleware
+// ======================
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
