@@ -24,6 +24,7 @@ builder.Services.AddScoped<IDbConnection>(sp =>
 );
 
 builder.Services.AddScoped<IUserrepositery, UserBusiness>();
+builder.Services.AddScoped<IExperience, ExperienceBusiness>();
 builder.Services.AddControllers();
 
 // Swagger setup

@@ -1,8 +1,9 @@
 ﻿using Dapper;
-using Project_Recruitment;
+using Project_Recruitment.Entity;
+using Project_Recruitment.Interface;
 using System.Data;
 
-namespace WebApplication1
+namespace Project_Recruitment.Business
 {
     public class UserBusiness : IUserrepositery
     {
@@ -35,15 +36,6 @@ namespace WebApplication1
                 parameters.Add("@DateOfBirth", user.DateOfBirth);
                 parameters.Add("@OfferCTC", user.OfferCTC);
                 parameters.Add("@RoleId", user.RoleId);
-        
-
-        public UserEntity Login(string email, string password)
-        {
-            try
-            {
-                var parameters = new DynamicParameters();
-                parameters.Add("@Email", email);
-                parameters.Add("@Password", password);
 
                 _db.Execute(
                     "SP_User_Insert",
@@ -58,12 +50,37 @@ namespace WebApplication1
         }
 
         // =========================
+        // LOGIN USER
+        // =========================
+        public UserEntity Login(string email, string password)
+        {
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@Email", email);
+                parameters.Add("@Password", password);
+
+                var user = _db.QueryFirstOrDefault<UserEntity>(
+                    "SP_User_Login",
+                    parameters,
+                    commandType: CommandType.StoredProcedure
+                );
+
+                return user;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Login failed: {ex.Message}");
+            }
+        }
+
+        // =========================
         // UPDATE USER
         // =========================
         public void UpdateUser(UserEntity user)
         {
             if (user.UserId <= 0)
-                throw new Exception("Valid UserId is required for update");
+                throw new Exception("Valid UserId is required");
 
             try
             {
@@ -73,7 +90,6 @@ namespace WebApplication1
                 parameters.Add("@Email", user.Email);
                 parameters.Add("@FirstName", user.FirstName);
                 parameters.Add("@LastName", user.LastName);
-   
                 parameters.Add("@RoleId", user.RoleId);
 
                 _db.Execute(
@@ -94,7 +110,7 @@ namespace WebApplication1
         public void DeleteUser(int id)
         {
             if (id <= 0)
-                throw new Exception("Valid UserId is required for delete");
+                throw new Exception("Valid UserId is required");
 
             try
             {
@@ -109,22 +125,10 @@ namespace WebApplication1
                 throw new Exception("Error while deleting user", ex);
             }
         }
-                // Stored procedure returns Id & Email on success
-                var user = _db.QueryFirstOrDefault<UserEntity>(
-                    "SP_User_Login",
-                    parameters,
-                    commandType: CommandType.StoredProcedure
-                );
-                return user;
-            }
-            catch (Exception ex)
-            {
-                // log exception here if needed
-                throw new Exception($"Login failed: {ex.Message}");
-            }
-        }
 
-
+        // =========================
+        // UPDATE PASSWORD
+        // =========================
         public void UpdatePassword(int userId, string newPassword, string confirmPassword)
         {
             try
@@ -134,12 +138,9 @@ namespace WebApplication1
                 parameters.Add("@NewPassword", newPassword);
                 parameters.Add("@ConfirmPassword", confirmPassword);
 
-                // Capture RETURN value from stored procedure
-                parameters.Add(
-                    "@ReturnValue",
+                parameters.Add("@ReturnValue",
                     dbType: DbType.Int32,
-                    direction: ParameterDirection.ReturnValue
-                );
+                    direction: ParameterDirection.ReturnValue);
 
                 _db.Execute(
                     "SP_Forgot_Password",
@@ -150,17 +151,15 @@ namespace WebApplication1
                 int result = parameters.Get<int>("@ReturnValue");
 
                 if (result == -1)
-                    throw new Exception("New password and confirm password do not match.");
+                    throw new Exception("Password mismatch");
 
                 if (result != 1)
-                    throw new Exception("Password update failed.");
+                    throw new Exception("Password update failed");
             }
             catch (Exception ex)
             {
-                // log exception here if needed
                 throw new Exception($"Error while updating password: {ex.Message}");
             }
         }
-
     }
 }
