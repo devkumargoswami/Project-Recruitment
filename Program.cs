@@ -13,6 +13,7 @@ builder.Services.AddScoped<IDbConnection>(sp =>
 
 // Register UserBusiness as implementation of IUserrepositery
 builder.Services.AddScoped<IUserrepositery, UserBusiness>();
+builder.Services.AddScoped<IUserEducationRepository, UserEducationBusines>();
 
 builder.Services.AddControllers();
 
