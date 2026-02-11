@@ -1,4 +1,5 @@
 using Microsoft.Data.SqlClient;
+using Project_Recruitment;
 using System.Data;
 using Project_Recruitment;
 using WebApplication1;
@@ -23,10 +24,10 @@ builder.Services.AddScoped<IDbConnection>(sp =>
     )
 );
 
-
+builder.Services.AddScoped<IUserrepositery, UserBusiness>();
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+
+// Swagger setup
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

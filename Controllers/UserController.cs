@@ -80,5 +80,38 @@ namespace Project_Recruitment.Controllers
                 return StatusCode(500, new { error = ex.Message });
             }
         }
+        [HttpPost("login")]
+        public IActionResult Login([FromBody] UserLoginDTO login)
+        {
+            try
+            {
+                var loggedInUser = _repository.Login(login.Email, login.Password);
+                if (loggedInUser == null)
+                    return Unauthorized("Invalid email or password");
+
+                loggedInUser.Password = null;
+                return Ok(loggedInUser);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Login failed: {ex.Message}");
+            }
+        }
+
+        [HttpPost("updatePassword")]
+        public IActionResult UpdatePassword([FromBody] UpdatePasswordDTO dto)
+        {
+            try
+            {
+                _repository.UpdatePassword(dto.UserId, dto.NewPassword, dto.ConfirmPassword);
+                return Ok("Password updated successfully");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
+
+       

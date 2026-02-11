@@ -24,28 +24,17 @@ namespace WebApplication1
             if (string.IsNullOrWhiteSpace(user.Email))
                 throw new Exception("Email is required");
 
-            try
-            {
-                var parameters = new DynamicParameters();
-                parameters.Add("@Username", user.Username);
-                parameters.Add("@Password", user.Password);
-                parameters.Add("@Email", user.Email);
-                parameters.Add("@FirstName", user.FirstName);
-                parameters.Add("@LastName", user.LastName);
-                parameters.Add("@DateOfBirth", user.DateOfBirth);
-                parameters.Add("@OfferCTC", user.OfferCTC);
-                parameters.Add("@RoleId", user.RoleId);
+            var parameters = new DynamicParameters();
+            parameters.Add("@Username", user.Username);
+            parameters.Add("@Password", user.Password);
+            parameters.Add("@Email", user.Email);
+            parameters.Add("@FirstName", user.FirstName);
+            parameters.Add("@LastName", user.LastName);
+            parameters.Add("@DateOfBirth", user.DateOfBirth);
+            parameters.Add("@OfferCTC", user.OfferCTC);
+            parameters.Add("@RoleId", user.RoleId);
 
-                _db.Execute(
-                    "SP_User_Insert",
-                    parameters,
-                    commandType: CommandType.StoredProcedure
-                );
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error while inserting user", ex);
-            }
+            _db.Execute("SP_User_Insert", parameters, commandType: CommandType.StoredProcedure);
         }
 
         // =========================
@@ -54,29 +43,17 @@ namespace WebApplication1
         public void UpdateUser(UserEntity user)
         {
             if (user.UserId <= 0)
-                throw new Exception("Valid UserId is required for update");
+                throw new Exception("Valid UserId is required");
 
-            try
-            {
-                var parameters = new DynamicParameters();
-                parameters.Add("@Id", user.UserId);
-                parameters.Add("@Username", user.Username);
-                parameters.Add("@Email", user.Email);
-                parameters.Add("@FirstName", user.FirstName);
-                parameters.Add("@LastName", user.LastName);
-   
-                parameters.Add("@RoleId", user.RoleId);
+            var parameters = new DynamicParameters();
+            parameters.Add("@Id", user.UserId);
+            parameters.Add("@Username", user.Username);
+            parameters.Add("@Email", user.Email);
+            parameters.Add("@FirstName", user.FirstName);
+            parameters.Add("@LastName", user.LastName);
+            parameters.Add("@RoleId", user.RoleId);
 
-                _db.Execute(
-                    "SP_User_Update",
-                    parameters,
-                    commandType: CommandType.StoredProcedure
-                );
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error while updating user", ex);
-            }
+            _db.Execute("SP_User_Update", parameters, commandType: CommandType.StoredProcedure);
         }
 
         // =========================
@@ -85,20 +62,13 @@ namespace WebApplication1
         public void DeleteUser(int id)
         {
             if (id <= 0)
-                throw new Exception("Valid UserId is required for delete");
+                throw new Exception("Invalid UserId");
 
-            try
-            {
-                _db.Execute(
-                    "SP_User_Delete",
-                    new { Id = id },
-                    commandType: CommandType.StoredProcedure
-                );
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error while deleting user", ex);
-            }
+            _db.Execute(
+                "SP_User_Delete",
+                new { Id = id },
+                commandType: CommandType.StoredProcedure
+            );
         }
 
         // =========================
@@ -106,16 +76,45 @@ namespace WebApplication1
         // =========================
         public IEnumerable<UserEntity> GetUsers()
         {
-            try
-            {
-                return _db.Query<UserEntity>(
-                    "SELECT * FROM [User]"
-                );
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error while fetching users", ex);
-            }
+            return _db.Query<UserEntity>("SELECT * FROM [User]");
+        }
+
+        // =========================
+        // LOGIN
+        // =========================
+        public UserEntity Login(string email, string password)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@Email", email);
+            parameters.Add("@Password", password);
+
+            return _db.QueryFirstOrDefault<UserEntity>(
+                "SP_User_Login",
+                parameters,
+                commandType: CommandType.StoredProcedure
+            );
+        }
+
+        // =========================
+        // UPDATE PASSWORD
+        // =========================
+        public void UpdatePassword(int userId, string newPassword, string confirmPassword)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@UserId", userId);
+            parameters.Add("@NewPassword", newPassword);
+            parameters.Add("@ConfirmPassword", confirmPassword);
+            parameters.Add("@ReturnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
+
+            _db.Execute("SP_Forgot_Password", parameters, commandType: CommandType.StoredProcedure);
+
+            int result = parameters.Get<int>("@ReturnValue");
+
+            if (result == -1)
+                throw new Exception("Passwords do not match");
+
+            if (result != 1)
+                throw new Exception("Password update failed");
         }
     }
 }
