@@ -23,62 +23,59 @@ namespace Project_Recruitment.Business
         // INSERT
         public async Task<bool> InsertExperience(ExperienceDTO dto)
         {
-            SqlConnection con = GetConnection();
-            SqlCommand cmd = new SqlCommand("SP_Experience_Insert", con);
-            cmd.CommandType = CommandType.StoredProcedure;
+            await using SqlConnection con = GetConnection();
+            await using SqlCommand cmd = new SqlCommand("SP_Experience_Insert", con)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
 
-            cmd.Parameters.AddWithValue("@UserId", dto.UserId);
-            cmd.Parameters.AddWithValue("@CompanyName", dto.CompanyName);
-            cmd.Parameters.AddWithValue("@Designation", dto.Designation);
-            cmd.Parameters.AddWithValue("@StartDate", dto.StartDate);
-            cmd.Parameters.AddWithValue("@EndDate",
-                dto.EndDate == null ? DBNull.Value : dto.EndDate);
-            cmd.Parameters.AddWithValue("@IsCurrent", dto.IsCurrent);
+            cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = dto.UserId;
+            cmd.Parameters.Add("@CompanyName", SqlDbType.NVarChar, 100).Value = dto.CompanyName;
+            cmd.Parameters.Add("@Designation", SqlDbType.NVarChar, 100).Value = dto.Designation;
+            cmd.Parameters.Add("@StartDate", SqlDbType.Date).Value = dto.StartDate;
+            cmd.Parameters.Add("@EndDate", SqlDbType.Date).Value =
+                dto.EndDate ?? (object)DBNull.Value;
+            cmd.Parameters.Add("@IsCurrent", SqlDbType.Bit).Value = dto.IsCurrent;
 
-            con.Open();
-            int row = await cmd.ExecuteNonQueryAsync();
-            con.Close();
-
-            return row > 0;
+            await con.OpenAsync();
+            return await cmd.ExecuteNonQueryAsync() > 0;
         }
 
         // UPDATE
         public async Task<bool> UpdateExperience(ExperienceUpdateDTO dto)
         {
-            SqlConnection con = GetConnection();
-            SqlCommand cmd = new SqlCommand("SP_Experience_Update", con);
-            cmd.CommandType = CommandType.StoredProcedure;
+            await using SqlConnection con = GetConnection();
+            await using SqlCommand cmd = new SqlCommand("SP_Experience_Update", con)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
 
-            cmd.Parameters.AddWithValue("@UserId", dto.UserId);
-            cmd.Parameters.AddWithValue("@ExperienceId", dto.ExperienceId);
-            cmd.Parameters.AddWithValue("@CompanyName", dto.CompanyName);
-            cmd.Parameters.AddWithValue("@Designation", dto.Designation);
-            cmd.Parameters.AddWithValue("@StartDate", dto.StartDate);
-            cmd.Parameters.AddWithValue("@EndDate",
-                dto.EndDate == null ? DBNull.Value : dto.EndDate);
-            cmd.Parameters.AddWithValue("@IsCurrent", dto.IsCurrent);
+            cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = dto.UserId;
+            cmd.Parameters.Add("@ExperienceId", SqlDbType.Int).Value = dto.ExperienceId;
+            cmd.Parameters.Add("@CompanyName", SqlDbType.NVarChar, 100).Value = dto.CompanyName;
+            cmd.Parameters.Add("@Designation", SqlDbType.NVarChar, 100).Value = dto.Designation;
+            cmd.Parameters.Add("@StartDate", SqlDbType.Date).Value = dto.StartDate;
+            cmd.Parameters.Add("@EndDate", SqlDbType.Date).Value =
+                dto.EndDate ?? (object)DBNull.Value;
+            cmd.Parameters.Add("@IsCurrent", SqlDbType.Bit).Value = dto.IsCurrent;
 
-            con.Open();
-            int row = await cmd.ExecuteNonQueryAsync();
-            con.Close();
-
-            return row > 0;
+            await con.OpenAsync();
+            return await cmd.ExecuteNonQueryAsync() > 0;
         }
 
         // DELETE
         public async Task<bool> DeleteExperience(int experienceId)
         {
-            SqlConnection con = GetConnection();
-            SqlCommand cmd = new SqlCommand("SP_Experience_Delete", con);
-            cmd.CommandType = CommandType.StoredProcedure;
+            await using SqlConnection con = GetConnection();
+            await using SqlCommand cmd = new SqlCommand("SP_Experience_Delete", con)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
 
-            cmd.Parameters.AddWithValue("@ExperienceId", experienceId);
+            cmd.Parameters.Add("@ExperienceId", SqlDbType.Int).Value = experienceId;
 
-            con.Open();
-            int row = await cmd.ExecuteNonQueryAsync();
-            con.Close();
-
-            return row > 0;
+            await con.OpenAsync();
+            return await cmd.ExecuteNonQueryAsync() > 0;
         }
 
         // SELECT
@@ -86,32 +83,31 @@ namespace Project_Recruitment.Business
         {
             List<Experience> list = new();
 
-            SqlConnection con = GetConnection();
-            SqlCommand cmd = new SqlCommand("SP_Experience_Select", con);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@UserId", userId);
+            await using SqlConnection con = GetConnection();
+            await using SqlCommand cmd = new SqlCommand("SP_Experience_Select", con)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
 
-            con.Open();
-            SqlDataReader dr = await cmd.ExecuteReaderAsync();
+            cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = userId;
+
+            await con.OpenAsync();
+            await using SqlDataReader dr = await cmd.ExecuteReaderAsync();
 
             while (await dr.ReadAsync())
             {
-                Experience exp = new Experience();
-
-                exp.ExperienceId = Convert.ToInt32(dr["ExperienceId"]);
-                exp.UserId = Convert.ToInt32(dr["UserId"]);
-                exp.CompanyName = dr["CompanyName"].ToString();
-                exp.Designation = dr["Designation"].ToString();
-                exp.StartDate = Convert.ToDateTime(dr["StartDate"]);
-                exp.EndDate = dr["EndDate"] == DBNull.Value
-                                ? null
-                                : Convert.ToDateTime(dr["EndDate"]);
-                exp.IsCurrent = Convert.ToBoolean(dr["IsCurrent"]);
-
-                list.Add(exp);
+                list.Add(new Experience
+                {
+                    ExperienceId = dr.GetInt32("ExperienceId"),
+                    UserId = dr.GetInt32("UserId"),
+                    CompanyName = dr["CompanyName"]?.ToString(),
+                    Designation = dr["Designation"]?.ToString(),
+                    StartDate = dr.GetDateTime("StartDate"),
+                    EndDate = dr["EndDate"] == DBNull.Value ? null : dr.GetDateTime("EndDate"),
+                    IsCurrent = dr.GetBoolean("IsCurrent")
+                });
             }
 
-            con.Close();
             return list;
         }
     }
