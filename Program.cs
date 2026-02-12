@@ -18,6 +18,8 @@ builder.Services.AddScoped<IDbConnection>(sp =>
 builder.Services.AddScoped<IUserrepositery, UserBusiness>();
 builder.Services.AddScoped<IUserEducationRepository, UserEducationBusines>();
 builder.Services.AddScoped<IEducationLevelRepository, EducationLevelBusiness>();
+builder.Services.AddScoped<IExperience, ExperienceBusiness>();
+builder.Services.AddControllers();
 
 
 var app = builder.Build();
