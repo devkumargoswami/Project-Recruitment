@@ -13,28 +13,28 @@ public class DocumentController : ControllerBase
         _documentRepository = documentRepository;
     }
 
-    [HttpPost]
+    [HttpPost("insert")]
     public IActionResult Insert(DocumentEntity model)
     {
         _documentRepository.InsertDocument(model);
         return Ok("Document inserted successfully");
     }
 
-    [HttpGet("{userId}")]
+    [HttpGet("getByUser/{userId}")]
     public IActionResult GetByUserId(int userId)
     {
         var data = _documentRepository.GetDocumentsByUserId(userId);
         return Ok(data);
     }
 
-    [HttpPut]
+    [HttpPut("update")]
     public IActionResult Update(DocumentEntity model)
     {
         _documentRepository.UpdateDocument(model);
         return Ok("Document updated successfully");
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("delete/{id}")]
     public IActionResult Delete(int id)
     {
         _documentRepository.DeleteDocument(id);

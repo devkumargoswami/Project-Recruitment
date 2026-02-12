@@ -1,4 +1,4 @@
-﻿namespace Project_Recruitment.DTO
+﻿namespace Project_Recruitment.DTOs
 {
     public class InterviewScheduleDTO
     {

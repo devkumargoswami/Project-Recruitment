@@ -2,6 +2,7 @@
 using Project_Recruitment.Entity;
 using Project_Recruitment.Interface;
 using Project_Recruitment.Entity;
+using Project_Recruitment.DTOs;
 
 namespace Project_Recruitment.Controllers
 {

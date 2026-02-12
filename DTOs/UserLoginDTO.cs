@@ -1,4 +1,4 @@
-﻿namespace Project_Recruitment
+﻿namespace Project_Recruitment.DTOs
 {
     public class UserLoginDTO
     {

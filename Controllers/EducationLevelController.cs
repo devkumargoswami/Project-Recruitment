@@ -15,7 +15,7 @@ namespace Project_Recruitment.Controllers
             _repository = repository;
         }
 
-        [HttpPost]
+        [HttpPost("insert")]
         public IActionResult Insert(EducationLevelEntity entity)
         {
             var result = _repository.Insert(entity);
@@ -26,7 +26,7 @@ namespace Project_Recruitment.Controllers
             return BadRequest("Education Level already exists");
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("getByUser/{userId}")]
         public IActionResult Get(int id)
         {
             var result = _repository.GetById(id);
@@ -37,7 +37,7 @@ namespace Project_Recruitment.Controllers
             return Ok(result);
         }
 
-        [HttpPut]
+        [HttpPut("update")]
         public IActionResult Update(EducationLevelEntity entity)
         {
             var result = _repository.Update(entity);
@@ -48,7 +48,7 @@ namespace Project_Recruitment.Controllers
             return BadRequest("Update failed");
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("delete/{id}")]
         public IActionResult Delete(int id)
         {
             var result = _repository.Delete(id);

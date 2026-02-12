@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using Project_Recruitment.DTOs;
 using Project_Recruitment.Entity;
 using Project_Recruitment.Interface;
 using System.Data;

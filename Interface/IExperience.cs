@@ -1,4 +1,5 @@
-﻿using Project_Recruitment.Entity;
+﻿using Project_Recruitment.DTOs;
+using Project_Recruitment.Entity;
 
 namespace Project_Recruitment.Interface
 {

@@ -1,4 +1,4 @@
-﻿namespace Project_Recruitment.Entity
+﻿namespace Project_Recruitment.DTOs
 {
     public class ExperienceDTO
     {
