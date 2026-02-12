@@ -14,9 +14,6 @@ namespace Project_Recruitment.Business
             _db = db;
         }
 
-        // =========================
-        // INSERT USER
-        // =========================
         public void AddUser(UserEntity user)
         {
             if (string.IsNullOrWhiteSpace(user.Username))
@@ -36,11 +33,9 @@ namespace Project_Recruitment.Business
             parameters.Add("@RoleId", user.RoleId);
 
             _db.Execute("SP_User_Insert", parameters, commandType: CommandType.StoredProcedure);
+        
         }
 
-        // =========================
-        // UPDATE USER
-        // =========================
         public void UpdateUser(UserEntity user)
         {
             if (user.UserId <= 0)
@@ -57,9 +52,6 @@ namespace Project_Recruitment.Business
             _db.Execute("SP_User_Update", parameters, commandType: CommandType.StoredProcedure);
         }
 
-        // =========================
-        // DELETE USER
-        // =========================
         public void DeleteUser(int id)
         {
             if (id <= 0)
@@ -72,17 +64,13 @@ namespace Project_Recruitment.Business
             );
         }
 
-        // =========================
-        // GET USERS
-        // =========================
+ 
         public IEnumerable<UserEntity> GetUsers()
         {
             return _db.Query<UserEntity>("SELECT * FROM [User]");
         }
 
-        // =========================
-        // LOGIN
-        // =========================
+     
         public UserEntity Login(string email, string password)
         {
             var parameters = new DynamicParameters();
@@ -96,9 +84,6 @@ namespace Project_Recruitment.Business
             );
         }
 
-        // =========================
-        // UPDATE PASSWORD
-        // =========================
         public void UpdatePassword(int userId, string newPassword, string confirmPassword)
         {
             var parameters = new DynamicParameters();
