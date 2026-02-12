@@ -26,7 +26,11 @@ builder.Services.AddScoped<IDbConnection>(sp =>
 // Dependency Injection
 builder.Services.AddScoped<IUserrepositery, UserBusiness>();
 builder.Services.AddScoped<IExperience, ExperienceBusiness>();
+builder.Services.AddControllers();
 
+// Swagger setup
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
