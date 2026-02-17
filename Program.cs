@@ -30,7 +30,9 @@ builder.Services.AddScoped<IDocumentRepository, DocumentBusiness>();
 builder.Services.AddScoped<IInterviewScheduleRepository, InterviewScheduleRepository>();
 builder.Services.AddScoped<IRegisterRepository, UserRegisterBusiness>();
 builder.Services.AddScoped<ISkillRepository, SkillBusiness>();
-builder.Services.AddControllers();
+builder.Services.AddScoped<IResult, ResultService>();
+builder.Services.AddScoped<IListrepositery, ListBusiness>();
+
 
 
 var app = builder.Build();
