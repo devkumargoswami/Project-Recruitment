@@ -29,7 +29,7 @@ builder.Services.AddScoped<IExperience, ExperienceBusiness>();
 builder.Services.AddScoped<IDocumentRepository, DocumentBusiness>();
 builder.Services.AddScoped<IInterviewScheduleRepository, InterviewScheduleRepository>();
 builder.Services.AddScoped<IRegisterRepository, UserRegisterBusiness>();
-
+builder.Services.AddScoped<ISkillRepository, SkillBusiness>();
 builder.Services.AddControllers();
 
 
