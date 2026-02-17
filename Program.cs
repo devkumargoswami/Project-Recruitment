@@ -28,6 +28,7 @@ builder.Services.AddScoped<IEducationLevelRepository, EducationLevelBusiness>();
 builder.Services.AddScoped<IExperience, ExperienceBusiness>();
 builder.Services.AddScoped<IDocumentRepository, DocumentBusiness>();
 builder.Services.AddScoped<IInterviewScheduleRepository, InterviewScheduleRepository>();
+builder.Services.AddScoped<IRegisterRepository, UserRegisterBusiness>();
 
 builder.Services.AddControllers();
 
