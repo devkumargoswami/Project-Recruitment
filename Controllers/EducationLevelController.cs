@@ -8,55 +8,83 @@ namespace Project_Recruitment.Controllers
     [ApiController]
     public class EducationLevelController : ControllerBase
     {
-        private readonly IEducationLevelRepository _repository;
+        private readonly IEducationLevelRepository EducationLevelRepository;
 
         public EducationLevelController(IEducationLevelRepository repository)
         {
-            _repository = repository;
+            EducationLevelRepository = repository;
         }
 
         [HttpPost("insert")]
         public IActionResult Insert(EducationLevelEntity entity)
         {
-            var result = _repository.Insert(entity);
+            try
+            {
+                var result = EducationLevelRepository.Insert(entity);
 
-            if (result == 1)
-                return Ok("Inserted successfully");
+                if (result == 1)
+                    return Ok("Education Level Inserted successfully");
 
-            return BadRequest("Education Level already exists");
+                return BadRequest("Education Level already exists");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error inserting education level: {ex.Message}");
+            }
         }
 
-        [HttpGet("getByUser/{userId}")]
+        [HttpGet("getById/{id}")]
         public IActionResult Get(int id)
         {
-            var result = _repository.GetById(id);
+            try
+            {
+                var result = EducationLevelRepository.GetById(id);
 
-            if (result == null)
-                return NotFound();
+                if (result == null)
+                    return NotFound();
 
-            return Ok(result);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error fetching education level: {ex.Message}");
+            }
         }
 
         [HttpPut("update")]
         public IActionResult Update(EducationLevelEntity entity)
         {
-            var result = _repository.Update(entity);
+            try
+            {
+                var result = EducationLevelRepository.Update(entity);
 
-            if (result > 0)
-                return Ok("Updated successfully");
+                if (result > 0)
+                    return Ok("Education Level Updated successfully");
 
-            return BadRequest("Update failed");
+                return BadRequest("Education level Update failed");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error updating education level: {ex.Message}");
+            }
         }
 
         [HttpDelete("delete/{id}")]
         public IActionResult Delete(int id)
         {
-            var result = _repository.Delete(id);
+            try
+            {
+                var result = EducationLevelRepository.Delete(id);
 
-            if (result > 0)
-                return Ok("Deleted successfully");
+                if (result > 0)
+                    return Ok("Education Level Deleted successfully");
 
-            return NotFound();
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error deleting education level: {ex.Message}");
+            }
         }
     }
 }

@@ -7,102 +7,60 @@ namespace Project_Recruitment.Business
 {
     public class EducationLevelBusiness : IEducationLevelRepository
     {
-        private readonly IDbConnection _db;
+        private readonly IDbConnection educationLevelConnection;
 
-        public EducationLevelBusiness(IDbConnection db)
+        public EducationLevelBusiness(IDbConnection educationLevelsConnection)
         {
-            _db = db;
+            educationLevelConnection = educationLevelsConnection;
         }
 
-     
         public int Insert(EducationLevelEntity entity)
         {
-            try
-            {
-                var parameters = new DynamicParameters();
-                parameters.Add("@LevelName", entity.LevelName);
+            var parameters = new DynamicParameters();
+            parameters.Add("@LevelName", entity.LevelName);
 
-                
-                int result = _db.QueryFirstOrDefault<int>(
-                    "SP_EducationLevel_Insert",
-                    parameters,
-                    commandType: CommandType.StoredProcedure
-                );
-
-                return result; 
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error inserting education level: {ex.Message}");
-            }
+            return educationLevelConnection.QueryFirstOrDefault<int>(
+                "SP_EducationLevel_Insert",
+                parameters,
+                commandType: CommandType.StoredProcedure
+            );
         }
 
-     
         public EducationLevelEntity GetById(int id)
         {
-            try
-            {
-                var parameters = new DynamicParameters();
-                parameters.Add("@EducationLevelId", id);
+            var parameters = new DynamicParameters();
+            parameters.Add("@EducationLevelId", id);
 
-                var result = _db.QueryFirstOrDefault<EducationLevelEntity>(
-                    "SP_EducationLevel_Select",
-                    parameters,
-                    commandType: CommandType.StoredProcedure
-                );
-
-                return result;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error fetching education level: {ex.Message}");
-            }
+            return educationLevelConnection.QueryFirstOrDefault<EducationLevelEntity>(
+                "SP_EducationLevel_Select",
+                parameters,
+                commandType: CommandType.StoredProcedure
+            );
         }
 
-   
         public int Update(EducationLevelEntity entity)
         {
-            try
-            {
-                var parameters = new DynamicParameters();
-                parameters.Add("@EducationLevelId", entity.EducationLevelId);
-                parameters.Add("@LevelName", entity.LevelName);
+            var parameters = new DynamicParameters();
+            parameters.Add("@EducationLevelId", entity.EducationLevelId);
+            parameters.Add("@LevelName", entity.LevelName);
 
-                int rowsAffected = _db.Execute(
-                    "SP_EducationLevel_Update",
-                    parameters,
-                    commandType: CommandType.StoredProcedure
-                );
-
-                return rowsAffected;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error updating education level: {ex.Message}");
-            }
+            return educationLevelConnection.Execute(
+                "SP_EducationLevel_Update",
+                parameters,
+                commandType: CommandType.StoredProcedure
+            );
         }
 
-     
         public int Delete(int id)
         {
-            try
-            {
-                var parameters = new DynamicParameters();
-                parameters.Add("@EducationLevelId", id);
+            var parameters = new DynamicParameters();
+            parameters.Add("@EducationLevelId", id);
 
-                int rowsAffected = _db.Execute(
-                    "SP_EducationLevel_Delete",
-                    parameters,
-                    commandType: CommandType.StoredProcedure
-                );
-
-                return rowsAffected;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error deleting education level: {ex.Message}");
-            }
+            return educationLevelConnection.Execute(
+                "SP_EducationLevel_Delete",
+                parameters,
+                commandType: CommandType.StoredProcedure
+            );
         }
     }
 }
-

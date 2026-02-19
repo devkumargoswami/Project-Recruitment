@@ -13,10 +13,10 @@ namespace Project_Recruitment.Interface
 
 
         // Login user
-        UserEntity Login(string email, string password);
+        public UserEntity Login(string email, string password);
 
         // Update user password
-        void UpdatePassword(int userId, string newPassword, string confirmPassword);
+        public void UpdatePassword(int userId, string newPassword, string confirmPassword);
 
     }
 }

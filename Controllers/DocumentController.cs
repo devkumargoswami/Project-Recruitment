@@ -6,38 +6,70 @@ using Project_Recruitment.Interface;
 [Route("api/[controller]")]
 public class DocumentController : ControllerBase
 {
-    private readonly IDocumentRepository _documentRepository;
+    private readonly IDocumentRepository documentRepository;
 
-    public DocumentController(IDocumentRepository documentRepository)
+    public DocumentController(IDocumentRepository documentsRepository)
     {
-        _documentRepository = documentRepository;
+        documentRepository = documentsRepository;
     }
 
     [HttpPost("insert")]
     public IActionResult Insert(DocumentEntity model)
     {
-        _documentRepository.InsertDocument(model);
-        return Ok("Document inserted successfully");
+        try
+        {
+            documentRepository.InsertDocument(model);
+            return Ok("Document inserted successfully");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Error inserting document: {ex.Message}");
+        }
     }
 
     [HttpGet("getByUser/{userId}")]
     public IActionResult GetByUserId(int userId)
     {
-        var data = _documentRepository.GetDocumentsByUserId(userId);
-        return Ok(data);
+        try
+        {
+            var data = documentRepository.GetDocumentsByUserId(userId);
+
+            if (data == null || !data.Any())
+                return NotFound("No documents found");
+
+            return Ok(data);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Error fetching documents: {ex.Message}");
+        }
     }
 
     [HttpPut("update")]
     public IActionResult Update(DocumentEntity model)
     {
-        _documentRepository.UpdateDocument(model);
-        return Ok("Document updated successfully");
+        try
+        {
+            documentRepository.UpdateDocument(model);
+            return Ok("Document updated successfully");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Error updating document: {ex.Message}");
+        }
     }
 
     [HttpDelete("delete/{id}")]
     public IActionResult Delete(int id)
     {
-        _documentRepository.DeleteDocument(id);
-        return Ok("Document deleted successfully");
+        try
+        {
+            documentRepository.DeleteDocument(id);
+            return Ok("Document deleted successfully");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Error deleting document: {ex.Message}");
+        }
     }
 }
