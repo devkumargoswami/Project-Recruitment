@@ -8,35 +8,83 @@ namespace Project_Recruitment.Controllers
     [Route("api/[controller]")]
     public class ExperienceController : ControllerBase
     {
-        private readonly IExperience _experience;
+        private readonly IExperience experience;
 
         public ExperienceController(IExperience experience)
         {
-            _experience = experience;
+            this.experience = experience;
         }
 
         [HttpPost("insert")]
         public async Task<IActionResult> Insert(ExperienceDTO dto)
         {
-            return Ok(await _experience.InsertExperience(dto));
+            try
+            {
+               experience.InsertExperience(dto);
+                return Ok("Experience inserted successfully");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    message = "Error inserting experience",
+                    error = ex.Message
+                });
+            }
         }
 
         [HttpPut("update")]
         public async Task<IActionResult> Update(ExperienceUpdateDTO dto)
         {
-            return Ok(await _experience.UpdateExperience(dto));
+            try
+            {
+                experience.UpdateExperience(dto);
+                return Ok("Updated SuccessFully");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    message = "Error updating experience",
+                    error = ex.Message
+                });
+            }
         }
 
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            return Ok(await _experience.DeleteExperience(id));
+            try
+            {
+             experience.DeleteExperience(id);
+                return Ok("Deleted SuccessFully");  
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    message = "Error deleting experience",
+                    error = ex.Message
+                });
+            }
         }
 
         [HttpGet("get/{userId}")]
         public async Task<IActionResult> Get(int userId)
         {
-            return Ok(await _experience.GetExperienceByUser(userId));
+            try
+            {
+                    var result = await experience.GetExperienceByUser(userId);
+                    return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    message = "Error fetching experience",
+                    error = ex.Message
+                });
+            }
         }
     }
 }

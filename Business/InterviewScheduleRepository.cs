@@ -89,7 +89,7 @@ namespace Project_Recruitment.Business
                     InterviewTitle = dr["InterviewTitle"].ToString(),
                     InterviewDateTime = Convert.ToDateTime(dr["InterviewDateTime"]),
                     InterviewBy = dr["InterviewBy"].ToString(),
-                    Status = dr["Status"].ToString(),
+                    Status = dr["Status"] == DBNull.Value ? 0 : Convert.ToInt32(dr["Status"]),
                     Comments = dr["Comments"]?.ToString(),
                     RecordingPath = dr["RecordingPath"]?.ToString()
                 });
