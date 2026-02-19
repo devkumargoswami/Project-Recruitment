@@ -8,11 +8,11 @@ namespace Project_Recruitment.Controllers
     [ApiController]
     public class UserEducationController : ControllerBase
     {
-        private readonly IUserEducationRepository _repository;
+        private readonly IUserEducationRepository Educationrepository;
 
-        public UserEducationController(IUserEducationRepository repository)
+        public UserEducationController(IUserEducationRepository EducatioRepository)
         {
-            _repository = repository;
+            Educationrepository = EducatioRepository;
         }
 
         // INSERT
@@ -21,7 +21,7 @@ namespace Project_Recruitment.Controllers
         {
             try
             {
-                _repository.InsertEducation(education);
+                Educationrepository.InsertEducation(education);
                 return Ok("Education inserted successfully");
             }
             catch (Exception ex)
@@ -36,7 +36,7 @@ namespace Project_Recruitment.Controllers
         {
             try
             {
-                var data = _repository.GetEducationByUserId(userId);
+                var data = Educationrepository.GetEducationByUserId(userId);
                 return Ok(data);
             }
             catch (Exception ex)
@@ -51,7 +51,7 @@ namespace Project_Recruitment.Controllers
         {
             try
             {
-                int rows = _repository.UpdateEducation(education);
+                int rows = Educationrepository.UpdateEducation(education);
 
                 if (rows > 0)
                     return Ok("Education updated successfully");
@@ -70,7 +70,7 @@ namespace Project_Recruitment.Controllers
         {
             try
             {
-                _repository.DeleteEducation(id);
+                Educationrepository.DeleteEducation(id);
                 return Ok("Education deleted successfully");
             }
             catch (Exception ex)

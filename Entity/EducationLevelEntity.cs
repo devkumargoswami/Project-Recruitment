@@ -3,7 +3,7 @@
     public class EducationLevelEntity
     {
         public int EducationLevelId { get; set; }
-        public string LevelName { get; set; }
+        public required string LevelName { get; set; }
 
     }
 }

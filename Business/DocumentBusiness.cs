@@ -7,91 +7,67 @@ namespace Project_Recruitment.Business
 {
     public class DocumentBusiness : IDocumentRepository
     {
-        private readonly IDbConnection _db;
+        private readonly IDbConnection _documentConnection;
 
-        public DocumentBusiness(IDbConnection db)
+        public DocumentBusiness(IDbConnection documentConnection)
         {
-            _db = db;
+            _documentConnection = documentConnection;
         }
 
         // INSERT
         public void InsertDocument(DocumentEntity document)
         {
-            try
-            {
-                var parameters = new DynamicParameters();
-                parameters.Add("@UserId", document.UserId);
-                parameters.Add("@DocumentName", document.DocumentName);
-                parameters.Add("@DocumentPath", document.DocumentPath);
+            var parameters = new DynamicParameters();
+            parameters.Add("@UserId", document.UserId);
+            parameters.Add("@DocumentName", document.DocumentName);
+            parameters.Add("@DocumentPath", document.DocumentPath);
 
-                _db.Execute("SP_Document_Insert",
-                    parameters,
-                    commandType: CommandType.StoredProcedure);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error inserting document: {ex.Message}");
-            }
+            _documentConnection.Execute(
+                "SP_Document_Insert",
+                parameters,
+                commandType: CommandType.StoredProcedure
+            );
         }
 
         // SELECT
         public List<DocumentEntity> GetDocumentsByUserId(int userId)
         {
-            try
-            {
-                var parameters = new DynamicParameters();
-                parameters.Add("@UserId", userId);
+            var parameters = new DynamicParameters();
+            parameters.Add("@UserId", userId);
 
-                var result = _db.Query<DocumentEntity>(
-                    "SP_Document_Select",
-                    parameters,
-                    commandType: CommandType.StoredProcedure
-                ).ToList();
-
-                return result;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error fetching documents: {ex.Message}");
-            }
+            return _documentConnection.Query<DocumentEntity>(
+                "SP_Document_Select",
+                parameters,
+                commandType: CommandType.StoredProcedure
+            ).ToList();
         }
 
         // UPDATE
         public void UpdateDocument(DocumentEntity document)
         {
-            try
-            {
-                var parameters = new DynamicParameters();
-                parameters.Add("@DocumentId", document.DocumentId);
-                parameters.Add("@DocumentName", document.DocumentName);
-                parameters.Add("@DocumentPath", document.DocumentPath);
+            var parameters = new DynamicParameters();
+            parameters.Add("@DocumentId", document.DocumentId);
+            parameters.Add("@DocumentName", document.DocumentName);
+            parameters.Add("@DocumentPath", document.DocumentPath);
 
-                _db.Execute("SP_Document_Update",
-                    parameters,
-                    commandType: CommandType.StoredProcedure);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error updating document: {ex.Message}");
-            }
+            _documentConnection.Execute(
+                "SP_Document_Update",
+                parameters,
+                commandType: CommandType.StoredProcedure
+            );
         }
 
         // DELETE
         public void DeleteDocument(int documentId)
         {
-            try
-            {
-                var parameters = new DynamicParameters();
-                parameters.Add("@DocumentId", documentId);
+            var parameters = new DynamicParameters();
+            parameters.Add("@DocumentId", documentId);
 
-                _db.Execute("SP_Document_Delete",
-                    parameters,
-                    commandType: CommandType.StoredProcedure);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error deleting document: {ex.Message}");
-            }
+            _documentConnection.Execute(
+                "SP_Document_Delete",
+                parameters,
+                commandType: CommandType.StoredProcedure
+            );
         }
     }
 }
