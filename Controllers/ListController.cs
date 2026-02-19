@@ -17,8 +17,22 @@ namespace Project_Recruitment.Controllers
         [HttpGet("List")]
         public IActionResult GetAll(int id)
         {
-            var data = Lists.GetAllUsers(id);
-            return Ok(data);
+            try
+            {
+                var data = Lists.GetAllUsers(id);
+
+                if (data == null)
+                {
+                    return NotFound("No records found.");
+                }
+
+                return Ok(data);
+            }
+            catch (Exception ex)
+            {
+                // Log error here if needed
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
     }
 }

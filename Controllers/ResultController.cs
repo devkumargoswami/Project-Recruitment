@@ -8,9 +8,9 @@ namespace Project_Recruitment.Controllers
     [ApiController]
     public class ResultController : ControllerBase
     {
-        private readonly Interface.IResultRepositry _result;
+        private readonly IResultRepositry _result;
 
-        public ResultController(Interface.IResultRepositry result)
+        public ResultController(IResultRepositry result)
         {
             _result = result;
         }
@@ -18,25 +18,61 @@ namespace Project_Recruitment.Controllers
         [HttpPost("Insert")]
         public IActionResult Insert(ResultDTO model)
         {
-            return Ok(_result.Insert(model));
+            try
+            {
+                var data = _result.Insert(model);
+                return Ok(data);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Error while inserting result.");
+            }
         }
 
         [HttpPut("Update")]
         public IActionResult Update(ResultDTO model)
         {
-            return Ok(_result.Update(model));
+            try
+            {
+                var data = _result.Update(model);
+                return Ok(data);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Error while updating result.");
+            }
         }
 
         [HttpGet("GetByCandidate/{id}")]
         public IActionResult GetByCandidate(int id)
         {
-            return Ok(_result.GetByCandidate(id));
+            try
+            {
+                var data = _result.GetByCandidate(id);
+
+                if (data == null)
+                    return NotFound("Candidate result not found.");
+
+                return Ok(data);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Error while fetching result.");
+            }
         }
 
         [HttpDelete("Delete/{id}")]
         public IActionResult Delete(int id)
         {
-            return Ok(_result.Delete(id));
+            try
+            {
+                var data = _result.Delete(id);
+                return Ok(data);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Error while deleting result.");
+            }
         }
     }
 }
