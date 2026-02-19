@@ -7,17 +7,17 @@ namespace Project_Recruitment.Controllers
     [ApiController]
     public class ListController : ControllerBase
     {
-        private readonly IUserrepositery _user;
+        private readonly IListrepositery Lists;
 
-        public ListController(IUserrepositery user)
+        public ListController(IListrepositery List)
         {
-            _user = user;
+            Lists = List;
         }
 
         [HttpGet("List")]
-        public IActionResult GetAll()
+        public IActionResult GetAll(int id)
         {
-            var data = _user.GetAllUsers();
+            var data = Lists.GetAllUsers(id);
             return Ok(data);
         }
     }

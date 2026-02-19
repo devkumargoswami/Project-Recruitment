@@ -6,11 +6,11 @@ using Project_Recruitment.Entity;
 
 namespace Project_Recruitment.Business
 {
-    public class ResultService : IResultBusiness
+    public class ResultBussiness : IResultRepositry
     {
         private readonly IConfiguration _configuration;
 
-        public ResultService(IConfiguration configuration)
+        public ResultBussiness(IConfiguration configuration)
         {
             _configuration = configuration;
         }
@@ -40,6 +40,7 @@ namespace Project_Recruitment.Business
             cmd.Parameters.AddWithValue("@result_id", model.Result_id);
             cmd.Parameters.AddWithValue("@technical_marks", model.Technical_marks);
             cmd.Parameters.AddWithValue("@hr_marks", model.Hr_marks);
+            cmd.Parameters.AddWithValue("@candidate_id", model.Candidate_id);
 
             con.Open();
             cmd.ExecuteNonQuery();
@@ -89,9 +90,5 @@ namespace Project_Recruitment.Business
 
             return "Deleted Successfully";
         }
-    }
-
-    public interface IResultBusiness
-    {
     }
 }

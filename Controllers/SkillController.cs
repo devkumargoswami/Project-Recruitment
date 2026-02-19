@@ -9,26 +9,26 @@ namespace Project_Recruitment.Controllers
     [ApiController]
     public class SkillController : ControllerBase
     {
-        private readonly SkillController;
+        private readonly ISkillRepository skillsRepository;
 
-        public SkillController(SkillController)
+       public SkillController(ISkillRepository skillRepository)
         {
-            _service = service;
+            skillsRepository = skillRepository;
         }
 
         // INSERT
         [HttpPost("Insert")]
         public IActionResult Insert(Skill skill)
         {
-            var result = _service.InsertSkill(skill);
-            return Ok(result);
+            skillsRepository.InsertSkill(skill);
+            return Ok("Skill Insert Sucessfully");
         }
 
         // SELECT
         [HttpGet("Select")]
         public IActionResult Select(int? id, int? userId)
         {
-            var data = _service.GetSkill(id, userId);
+            var data = skillsRepository.GetSkill(id, userId);
             return Ok(data);
         }
 
@@ -36,8 +36,8 @@ namespace Project_Recruitment.Controllers
         [HttpDelete("Delete/{id}")]
         public IActionResult Delete(int id)
         {
-            _service.DeleteSkill(id);
-            return Ok("Deleted Successfully");
+            skillsRepository.DeleteSkill(id);
+            return Ok("Skill Deleted Sucessfully");
         }
     }
 }

@@ -4,8 +4,8 @@ namespace Project_Recruitment.Interface
 {
     public interface ISkillRepository
     {
-        int InsertSkill(Skill skill);
-        List<Skill> GetSkill(int? id, int? userId);
-        void DeleteSkill(int id);
+        public int InsertSkill(Skill skill);
+        public List<Skill> GetSkill(int? id, int? userId);
+        public void DeleteSkill(int id);
     }
 }

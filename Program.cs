@@ -29,8 +29,8 @@ builder.Services.AddScoped<IExperience, ExperienceBusiness>();
 builder.Services.AddScoped<IDocumentRepository, DocumentBusiness>();
 builder.Services.AddScoped<IInterviewScheduleRepository, InterviewScheduleRepository>();
 builder.Services.AddScoped<IRegisterRepository, UserRegisterBusiness>();
-builder.Services.AddScoped<ISkillRepository, SkillBusiness>();
-builder.Services.AddScoped<IResult, ResultService>();
+builder.Services.AddScoped<ISkillRepository, SkillBussiness>();
+builder.Services.AddScoped<IResultRepositry, ResultBussiness>();
 builder.Services.AddScoped<IListrepositery, ListBusiness>();
 
 

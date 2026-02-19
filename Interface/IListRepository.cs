@@ -1,6 +1,6 @@
 ﻿using Project_Recruitment.DTOs;
 
-public interface IUserrepositery
+public interface IListrepositery
 {
-    List<UserListDTO> GetAllUsers();
+    public List<UserListDTO> GetAllUsers(int id);
 }

@@ -8,9 +8,9 @@ namespace Project_Recruitment.Controllers
     [ApiController]
     public class ResultController : ControllerBase
     {
-        private readonly Interface.IResult _result;
+        private readonly Interface.IResultRepositry _result;
 
-        public ResultController(Interface.IResult result)
+        public ResultController(Interface.IResultRepositry result)
         {
             _result = result;
         }

@@ -4,11 +4,16 @@ using System.Data;
 
 namespace Project_Recruitment.Business
 {
-    public class ListBusiness
+    public class ListBusiness : IListrepositery
     {
-        private object _configuration;
+        private readonly IConfiguration _configuration;
 
-        public List<UserListDTO> GetAllUsers()
+        public ListBusiness(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
+        public List<UserListDTO> GetAllUsers(int id)
         {
             List<UserListDTO> list = new();
 

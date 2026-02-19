@@ -5,11 +5,11 @@ using Project_Recruitment.Interface;
 
 namespace Project_Recruitment.Business
 {
-    public class SkillService : ISkillBusiness
+    public class SkillBussiness : ISkillRepository
     {
         private readonly IConfiguration _configuration;
 
-        public SkillService(IConfiguration configuration)
+        public SkillBussiness(IConfiguration configuration)
         {
             _configuration = configuration;
         }
