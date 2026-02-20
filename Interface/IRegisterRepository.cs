@@ -4,6 +4,6 @@ namespace Project_Recruitment.Interface
 {
     public interface IRegisterRepository
     {
-        int RegisterUser(UserRegisterEntity user);
+        public int RegisterUser(UserRegisterEntity user);
     }
 }

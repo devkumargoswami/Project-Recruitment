@@ -13,12 +13,12 @@ public class DocumentController : ControllerBase
         documentRepository = documentsRepository;
     }
 
-    [HttpPost("insert")]
+    [HttpPost("Insert")]
     public IActionResult Insert(DocumentEntity model)
     {
         try
         {
-            documentRepository.InsertDocument(model);
+            documentRepository.Insert(model);
             return Ok("Document inserted successfully");
         }
         catch (Exception ex)
@@ -27,12 +27,12 @@ public class DocumentController : ControllerBase
         }
     }
 
-    [HttpGet("getByUser/{userId}")]
-    public IActionResult GetByUserId(int userId)
+    [HttpGet("GetByUser/{userId}")]
+    public IActionResult Get(int userId)
     {
         try
         {
-            var data = documentRepository.GetDocumentsByUserId(userId);
+            var data = documentRepository.Get(userId);
 
             if (data == null || !data.Any())
                 return NotFound("No documents found");
@@ -45,12 +45,12 @@ public class DocumentController : ControllerBase
         }
     }
 
-    [HttpPut("update")]
+    [HttpPut("Update")]
     public IActionResult Update(DocumentEntity model)
     {
         try
         {
-            documentRepository.UpdateDocument(model);
+            documentRepository.Update(model);
             return Ok("Document updated successfully");
         }
         catch (Exception ex)
@@ -59,12 +59,12 @@ public class DocumentController : ControllerBase
         }
     }
 
-    [HttpDelete("delete/{id}")]
+    [HttpDelete("Delete/{id}")]
     public IActionResult Delete(int id)
     {
         try
         {
-            documentRepository.DeleteDocument(id);
+            documentRepository.Delete(id);
             return Ok("Document deleted successfully");
         }
         catch (Exception ex)

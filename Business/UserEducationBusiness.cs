@@ -14,8 +14,7 @@ namespace Project_Recruitment.Business
             EducationConnection = userEducationConnection;
         }
 
-        // INSERT
-        public void InsertEducation(UserEducationEntity education)
+        public void Insert(UserEducationEntity education)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@UserId", education.UserId);
@@ -36,8 +35,7 @@ namespace Project_Recruitment.Business
             );
         }
 
-        // SELECT
-        public List<UserEducationEntity> GetEducationByUserId(int userId)
+        public List<UserEducationEntity> Get(int userId)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@UserId", userId);
@@ -49,8 +47,7 @@ namespace Project_Recruitment.Business
             ).ToList();
         }
 
-        // UPDATE
-        public int UpdateEducation(UserEducationEntity education)
+        public int Update(UserEducationEntity education)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@EducationId", education.Id);
@@ -72,8 +69,7 @@ namespace Project_Recruitment.Business
             );
         }
 
-        // DELETE
-        public void DeleteEducation(int id)
+        public void Delete(int id)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
