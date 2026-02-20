@@ -5,23 +5,16 @@ using System.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ======================
-// Add services
-// ======================
-
-// Controllers
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Dapper DB Connection
 builder.Services.AddScoped<IDbConnection>(sp =>
     new SqlConnection(
         builder.Configuration.GetConnectionString("DefaultConnection")
     )
 );
 
-// Dependency Injection
 builder.Services.AddScoped<IUserrepositery, UserBusiness>();
 builder.Services.AddScoped<IUserEducationRepository, UserEducationBusiness>();
 builder.Services.AddScoped<IEducationLevelRepository, EducationLevelBusiness>();
@@ -37,9 +30,7 @@ builder.Services.AddScoped<IListrepositery, ListBusiness>();
 
 var app = builder.Build();
 
-// ======================
-// Middleware
-// ======================
+
 
 if (app.Environment.IsDevelopment())
 {

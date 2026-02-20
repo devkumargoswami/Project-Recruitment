@@ -4,9 +4,9 @@ namespace Project_Recruitment.Interface
 {
     public interface IDocumentRepository
     {
-        public void InsertDocument(DocumentEntity document);
-        public List<DocumentEntity> GetDocumentsByUserId(int userId);
-        public void UpdateDocument(DocumentEntity document);
-        public void DeleteDocument(int documentId);
+        public void Insert(DocumentEntity document);
+        public List<DocumentEntity> Get(int userId);
+        public void Update(DocumentEntity document);
+        public void Delete(int documentId);
     }
 }

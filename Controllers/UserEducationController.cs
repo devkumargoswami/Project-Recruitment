@@ -15,13 +15,12 @@ namespace Project_Recruitment.Controllers
             Educationrepository = EducatioRepository;
         }
 
-        // INSERT
-        [HttpPost("insert")]
-        public IActionResult InsertEducation([FromBody] UserEducationEntity education)
+        [HttpPost("Insert")]
+        public IActionResult Insert([FromBody] UserEducationEntity education)
         {
             try
             {
-                Educationrepository.InsertEducation(education);
+                Educationrepository.Insert(education);
                 return Ok("Education inserted successfully");
             }
             catch (Exception ex)
@@ -30,13 +29,12 @@ namespace Project_Recruitment.Controllers
             }
         }
 
-        // SELECT
-        [HttpGet("getByUser/{userId}")]
-        public IActionResult GetByUser(int userId)
+        [HttpGet("GetByUser/{userId}")]
+        public IActionResult Get(int userId)
         {
             try
             {
-                var data = Educationrepository.GetEducationByUserId(userId);
+                var data = Educationrepository.Get(userId);
                 return Ok(data);
             }
             catch (Exception ex)
@@ -45,13 +43,12 @@ namespace Project_Recruitment.Controllers
             }
         }
 
-        // UPDATE
-        [HttpPut("update")]
-        public IActionResult UpdateEducation([FromBody] UserEducationEntity education)
+        [HttpPut("Update")]
+        public IActionResult Update([FromBody] UserEducationEntity education)
         {
             try
             {
-                int rows = Educationrepository.UpdateEducation(education);
+                int rows = Educationrepository.Update(education);
 
                 if (rows > 0)
                     return Ok("Education updated successfully");
@@ -64,13 +61,12 @@ namespace Project_Recruitment.Controllers
             }
         }
 
-        // DELETE
-        [HttpDelete("delete/{id}")]
-        public IActionResult DeleteEducation(int id)
+        [HttpDelete("Delete/{id}")]
+        public IActionResult Delete(int id)
         {
             try
             {
-                Educationrepository.DeleteEducation(id);
+                Educationrepository.Delete(id);
                 return Ok("Education deleted successfully");
             }
             catch (Exception ex)

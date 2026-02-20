@@ -7,63 +7,59 @@ namespace Project_Recruitment.Business
 {
     public class DocumentBusiness : IDocumentRepository
     {
-        private readonly IDbConnection _documentConnection;
+        private readonly IDbConnection documentConnection;
 
-        public DocumentBusiness(IDbConnection documentConnection)
+        public DocumentBusiness(IDbConnection DocumentConnection)
         {
-            _documentConnection = documentConnection;
+            documentConnection = DocumentConnection;
         }
 
-        // INSERT
-        public void InsertDocument(DocumentEntity document)
+        public void Insert(DocumentEntity document)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@UserId", document.UserId);
             parameters.Add("@DocumentName", document.DocumentName);
             parameters.Add("@DocumentPath", document.DocumentPath);
 
-            _documentConnection.Execute(
+            documentConnection.Execute(
                 "SP_Document_Insert",
                 parameters,
                 commandType: CommandType.StoredProcedure
             );
         }
 
-        // SELECT
-        public List<DocumentEntity> GetDocumentsByUserId(int userId)
+        public List<DocumentEntity> Get(int userId)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@UserId", userId);
 
-            return _documentConnection.Query<DocumentEntity>(
+            return documentConnection.Query<DocumentEntity>(
                 "SP_Document_Select",
                 parameters,
                 commandType: CommandType.StoredProcedure
             ).ToList();
         }
 
-        // UPDATE
-        public void UpdateDocument(DocumentEntity document)
+        public void Update(DocumentEntity document)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@DocumentId", document.DocumentId);
             parameters.Add("@DocumentName", document.DocumentName);
             parameters.Add("@DocumentPath", document.DocumentPath);
 
-            _documentConnection.Execute(
+            documentConnection.Execute(
                 "SP_Document_Update",
                 parameters,
                 commandType: CommandType.StoredProcedure
             );
         }
 
-        // DELETE
-        public void DeleteDocument(int documentId)
+        public void Delete(int documentId)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@DocumentId", documentId);
 
-            _documentConnection.Execute(
+            documentConnection.Execute(
                 "SP_Document_Delete",
                 parameters,
                 commandType: CommandType.StoredProcedure
