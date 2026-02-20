@@ -17,7 +17,7 @@ namespace Project_Recruitment.Controllers
 
         // INSERT
         [HttpPost("Insert")]
-        public IActionResult Insert(Skill skill)
+        public IActionResult Insert(SkillEntity skill)
         {
             try
             {

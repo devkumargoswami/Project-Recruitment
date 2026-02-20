@@ -9,5 +9,7 @@
         public string LastName { get; set; }
         public DateTime DateOfBirth { get; set; }
         public decimal OfferCTC { get; set; }
+
+        public int RoleId { get; set; }
     }
 }

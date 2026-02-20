@@ -20,7 +20,7 @@ namespace Project_Recruitment.Business
         }
 
         // INSERT
-        public int InsertSkill(Skill skill)
+        public int InsertSkill(SkillEntity skill)
         {
             using (SqlConnection con = GetConnection())
             {
@@ -36,9 +36,9 @@ namespace Project_Recruitment.Business
         }
 
         // SELECT
-        public List<Skill> GetSkill(int? id, int? userId)
+        public List<SkillEntity> GetSkill(int? id, int? userId)
         {
-            List<Skill> list = new List<Skill>();
+            List<SkillEntity> list = new List<SkillEntity>();
 
             using (SqlConnection con = GetConnection())
             {
@@ -53,7 +53,7 @@ namespace Project_Recruitment.Business
 
                 while (dr.Read())
                 {
-                    list.Add(new Skill
+                    list.Add(new SkillEntity() 
                     {
                         Id = Convert.ToInt32(dr["Id"]),
                         UserId = Convert.ToInt32(dr["UserId"]),

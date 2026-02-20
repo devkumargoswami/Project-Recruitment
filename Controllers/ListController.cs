@@ -7,11 +7,11 @@ namespace Project_Recruitment.Controllers
     [ApiController]
     public class ListController : ControllerBase
     {
-        private readonly IListrepositery Lists;
+        private readonly IListrepositery Listrepositery;
 
-        public ListController(IListrepositery List)
+        public ListController(IListrepositery Listsrepositery)
         {
-            Lists = List;
+            Listrepositery = Listsrepositery;
         }
 
         [HttpGet("List")]
@@ -19,7 +19,7 @@ namespace Project_Recruitment.Controllers
         {
             try
             {
-                var data = Lists.GetAllUsers(id);
+                var data = Listrepositery.GetAllUsers(id);
 
                 if (data == null)
                 {

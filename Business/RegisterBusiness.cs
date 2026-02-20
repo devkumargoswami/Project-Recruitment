@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Microsoft.AspNetCore.Components;
 using Project_Recruitment.Entity;
 using Project_Recruitment.Interface;
 using System.Data;
@@ -25,6 +26,7 @@ namespace Project_Recruitment.Business
             parameters.Add("@LastName", user.LastName);
             parameters.Add("@DateOfBirth", user.DateOfBirth);
             parameters.Add("@OfferCTC", user.OfferCTC);
+            parameters.Add("@RoleId", user.RoleId);
 
             int status = _db.QueryFirstOrDefault<int>(
                 "SP_User_Registration",

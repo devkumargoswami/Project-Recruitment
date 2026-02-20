@@ -8,11 +8,11 @@ namespace Project_Recruitment.Controllers
     [ApiController]
     public class ResultController : ControllerBase
     {
-        private readonly IResultRepositry _result;
+        private readonly IResultRepositry ResultRepositry;
 
         public ResultController(IResultRepositry result)
         {
-            _result = result;
+            ResultRepositry = result;
         }
 
         [HttpPost("Insert")]
@@ -20,7 +20,7 @@ namespace Project_Recruitment.Controllers
         {
             try
             {
-                var data = _result.Insert(model);
+                var data = ResultRepositry.Insert(model);
                 return Ok(data);
             }
             catch (Exception)
@@ -34,7 +34,7 @@ namespace Project_Recruitment.Controllers
         {
             try
             {
-                var data = _result.Update(model);
+                var data = ResultRepositry.Update(model);
                 return Ok(data);
             }
             catch (Exception)
@@ -48,7 +48,7 @@ namespace Project_Recruitment.Controllers
         {
             try
             {
-                var data = _result.GetByCandidate(id);
+                var data = ResultRepositry.GetByCandidate(id);
 
                 if (data == null)
                     return NotFound("Candidate result not found.");
@@ -66,7 +66,7 @@ namespace Project_Recruitment.Controllers
         {
             try
             {
-                var data = _result.Delete(id);
+                var data = ResultRepositry.Delete(id);
                 return Ok(data);
             }
             catch (Exception)
