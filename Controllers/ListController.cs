@@ -14,7 +14,7 @@ namespace Project_Recruitment.Controllers
             Listrepositery = Listsrepositery;
         }
 
-        [HttpGet("List")]
+        [HttpGet("UserId")]
         public IActionResult GetAll(int id)
         {
             try
