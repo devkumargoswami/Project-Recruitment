@@ -10,12 +10,12 @@ namespace Project_Recruitment.Controllers
     {
         private readonly IEducationLevelRepository EducationLevelRepository;
 
-        public EducationLevelController(IEducationLevelRepository repository)
+        public EducationLevelController(IEducationLevelRepository educationLevelRepository)
         {
-            EducationLevelRepository = repository;
+            EducationLevelRepository = educationLevelRepository;
         }
 
-        [HttpPost("insert")]
+        [HttpPost("Insert")]
         public IActionResult Insert(EducationLevelEntity entity)
         {
             try
@@ -33,7 +33,7 @@ namespace Project_Recruitment.Controllers
             }
         }
 
-        [HttpGet("getById/{id}")]
+        [HttpGet("GetById/{id}")]
         public IActionResult Get(int id)
         {
             try
@@ -51,7 +51,7 @@ namespace Project_Recruitment.Controllers
             }
         }
 
-        [HttpPut("update")]
+        [HttpPut("Update")]
         public IActionResult Update(EducationLevelEntity entity)
         {
             try
@@ -69,7 +69,7 @@ namespace Project_Recruitment.Controllers
             }
         }
 
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("Delete/{id}")]
         public IActionResult Delete(int id)
         {
             try

@@ -21,6 +21,8 @@ namespace Project_Recruitment.Business
             parameters.Add("@UserId", model.UserId);
             parameters.Add("@InterviewTitle", model.InterviewTitle);
             parameters.Add("@InterviewDateTime", model.InterviewDateTime);
+            parameters.Add("@Comments", model.Comments);
+            parameters.Add("@RecordingPath", model.RecordingPath);
             parameters.Add("@InterviewBy", model.InterviewBy);
             parameters.Add("@Status", model.Status);
 

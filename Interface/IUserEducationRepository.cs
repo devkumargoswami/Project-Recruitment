@@ -5,12 +5,12 @@ namespace Project_Recruitment.Interface
 {
     public interface IUserEducationRepository
     {
-        public void InsertEducation(UserEducationEntity education);
+        public void Insert(UserEducationEntity education);
 
-        public List<UserEducationEntity> GetEducationByUserId(int userId);
+        public List<UserEducationEntity> Get(int userId);
 
-        public int UpdateEducation(UserEducationEntity education);
+        public int Update(UserEducationEntity education);
 
-        public void DeleteEducation(int id);
+        public void Delete(int id);
     }
 }

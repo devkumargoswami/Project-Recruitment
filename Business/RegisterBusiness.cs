@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Microsoft.AspNetCore.Components;
 using Project_Recruitment.Entity;
 using Project_Recruitment.Interface;
 using System.Data;
@@ -17,29 +18,23 @@ namespace Project_Recruitment.Business
         // REGISTER USER
         public int RegisterUser(UserRegisterEntity user)
         {
-            try
-            {
-                var parameters = new DynamicParameters();
-                parameters.Add("@Username", user.Username);
-                parameters.Add("@Password", user.Password);
-                parameters.Add("@Email", user.Email);
-                parameters.Add("@FirstName", user.FirstName);
-                parameters.Add("@LastName", user.LastName);
-                parameters.Add("@DateOfBirth", user.DateOfBirth);
-                parameters.Add("@OfferCTC", user.OfferCTC);
+            var parameters = new DynamicParameters();
+            parameters.Add("@Username", user.Username);
+            parameters.Add("@Password", user.Password);
+            parameters.Add("@Email", user.Email);
+            parameters.Add("@FirstName", user.FirstName);
+            parameters.Add("@LastName", user.LastName);
+            parameters.Add("@DateOfBirth", user.DateOfBirth);
+            parameters.Add("@OfferCTC", user.OfferCTC);
+            parameters.Add("@RoleId", user.RoleId);
 
-                int status = _db.QueryFirstOrDefault<int>(
-                    "SP_User_Registration",
-                    parameters,
-                    commandType: CommandType.StoredProcedure
-                );
+            int status = _db.QueryFirstOrDefault<int>(
+                "SP_User_Registration",
+                parameters,
+                commandType: CommandType.StoredProcedure
+            );
 
-                return status; // 1 = Success, 0 = Duplicate
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error registering user: {ex.Message}");
-            }
+            return status; // 1 = Success, 0 = Duplicate
         }
     }
 }

@@ -8,11 +8,11 @@ namespace Project_Recruitment.Controllers
     [ApiController]
     public class UserRegisterController : ControllerBase
     {
-        private readonly IRegisterRepository _userRepository;
+        private readonly IRegisterRepository RegisterRepository;
 
-        public UserRegisterController(IRegisterRepository userRepository)
+        public UserRegisterController(IRegisterRepository RegisterRepository)
         {
-            _userRepository = userRepository;
+            RegisterRepository = RegisterRepository;
         }
 
         [HttpPost("register")]
@@ -23,7 +23,7 @@ namespace Project_Recruitment.Controllers
                 if (user == null)
                     return BadRequest(new { Message = "Invalid user data" });
 
-                var status = _userRepository.RegisterUser(user);
+                var status = RegisterRepository.RegisterUser(user);
 
                 if (status == 1)
                 {

@@ -7,18 +7,32 @@ namespace Project_Recruitment.Controllers
     [ApiController]
     public class ListController : ControllerBase
     {
-        private readonly IListrepositery Lists;
+        private readonly IListrepositery Listrepositery;
 
-        public ListController(IListrepositery List)
+        public ListController(IListrepositery Listsrepositery)
         {
-            Lists = List;
+            Listrepositery = Listsrepositery;
         }
 
         [HttpGet("List")]
         public IActionResult GetAll(int id)
         {
-            var data = Lists.GetAllUsers(id);
-            return Ok(data);
+            try
+            {
+                var data = Listrepositery.GetAllUsers(id);
+
+                if (data == null)
+                {
+                    return NotFound("No records found.");
+                }
+
+                return Ok(data);
+            }
+            catch (Exception ex)
+            {
+                // Log error here if needed
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
     }
 }
