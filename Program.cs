@@ -20,7 +20,7 @@ builder.Services.AddScoped<IUserEducationRepository, UserEducationBusiness>();
 builder.Services.AddScoped<IEducationLevelRepository, EducationLevelBusiness>();
 builder.Services.AddScoped<IExperience, ExperienceBusiness>();
 builder.Services.AddScoped<IDocumentRepository, DocumentBusiness>();
-builder.Services.AddScoped<IInterviewScheduleRepository, InterviewScheduleRepository>();
+builder.Services.AddScoped<IInterviewScheduleRepository, InterviewScheduleBusiness>();
 builder.Services.AddScoped<IRegisterRepository, UserRegisterBusiness>();
 builder.Services.AddScoped<ISkillRepository, SkillBussiness>();
 builder.Services.AddScoped<IResultRepositry, ResultBussiness>();

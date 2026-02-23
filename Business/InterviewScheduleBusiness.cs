@@ -5,11 +5,11 @@ using Project_Recruitment.Interface;
 
 namespace Project_Recruitment.Business
 {
-    public class InterviewScheduleRepository : IInterviewScheduleRepository
+    public class InterviewScheduleBusiness : IInterviewScheduleRepository
     {
         private readonly IDbConnection _interviewScheduleConnection;
 
-        public InterviewScheduleRepository(IDbConnection interviewScheduleConnection)
+        public InterviewScheduleBusiness(IDbConnection interviewScheduleConnection)
         {
             _interviewScheduleConnection = interviewScheduleConnection;
         }

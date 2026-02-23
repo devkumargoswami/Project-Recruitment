@@ -1,17 +1,19 @@
 ﻿using Dapper;
 using Project_Recruitment.Entity;
 using Project_Recruitment.Interface;
+using System;
+using System.Collections.Generic;
 using System.Data;
 
 namespace Project_Recruitment.Business
 {
     public class UserBusiness : IUserrepositery
     {
-        private readonly IDbConnection _db;
+        private readonly IDbConnection _dbConnection;
 
-        public UserBusiness(IDbConnection db)
+        public UserBusiness(IDbConnection dbConnection)
         {
-            _db = db;
+            _dbConnection = dbConnection;
         }
 
         public void AddUser(UserEntity user)
@@ -28,12 +30,16 @@ namespace Project_Recruitment.Business
             parameters.Add("@Email", user.Email);
             parameters.Add("@FirstName", user.FirstName);
             parameters.Add("@LastName", user.LastName);
+            parameters.Add("@Phonenumber", user.PhoneNumber); // BIGINT
             parameters.Add("@DateOfBirth", user.DateOfBirth);
             parameters.Add("@OfferCTC", user.OfferCTC);
             parameters.Add("@RoleId", user.RoleId);
 
-            _db.Execute("SP_User_Insert", parameters, commandType: CommandType.StoredProcedure);
-        
+            _dbConnection.Execute(
+                "SP_User_Insert",
+                parameters,
+                commandType: CommandType.StoredProcedure
+            );
         }
 
         public void UpdateUser(UserEntity user)
@@ -49,7 +55,11 @@ namespace Project_Recruitment.Business
             parameters.Add("@LastName", user.LastName);
             parameters.Add("@RoleId", user.RoleId);
 
-            _db.Execute("SP_User_Update", parameters, commandType: CommandType.StoredProcedure);
+            _dbConnection.Execute(
+                "SP_User_Update",
+                parameters,
+                commandType: CommandType.StoredProcedure
+            );
         }
 
         public void DeleteUser(int id)
@@ -57,27 +67,27 @@ namespace Project_Recruitment.Business
             if (id <= 0)
                 throw new Exception("Invalid UserId");
 
-            _db.Execute(
+            _dbConnection.Execute(
                 "SP_User_Delete",
                 new { Id = id },
                 commandType: CommandType.StoredProcedure
             );
         }
 
- 
         public IEnumerable<UserEntity> GetUsers()
         {
-            return _db.Query<UserEntity>("SELECT * FROM [User]");
+            return _dbConnection.Query<UserEntity>(
+                "SELECT * FROM [User]"
+            );
         }
 
-     
         public UserEntity Login(string email, string password)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Email", email);
             parameters.Add("@Password", password);
 
-            return _db.QueryFirstOrDefault<UserEntity>(
+            return _dbConnection.QueryFirstOrDefault<UserEntity>(
                 "SP_User_Login",
                 parameters,
                 commandType: CommandType.StoredProcedure
@@ -90,9 +100,17 @@ namespace Project_Recruitment.Business
             parameters.Add("@UserId", userId);
             parameters.Add("@NewPassword", newPassword);
             parameters.Add("@ConfirmPassword", confirmPassword);
-            parameters.Add("@ReturnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
+            parameters.Add(
+                "@ReturnValue",
+                dbType: DbType.Int32,
+                direction: ParameterDirection.ReturnValue
+            );
 
-            _db.Execute("SP_Forgot_Password", parameters, commandType: CommandType.StoredProcedure);
+            _dbConnection.Execute(
+                "SP_Forgot_Password",
+                parameters,
+                commandType: CommandType.StoredProcedure
+            );
 
             int result = parameters.Get<int>("@ReturnValue");
 
