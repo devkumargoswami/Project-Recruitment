@@ -1,100 +1,80 @@
-﻿using System.Data;
-using Microsoft.Data.SqlClient;
+﻿using Dapper;
+using System.Data;
 using Project_Recruitment.Entity;
 using Project_Recruitment.Interface;
+
 namespace Project_Recruitment.Business
 {
     public class InterviewScheduleRepository : IInterviewScheduleRepository
     {
-        private readonly IConfiguration _configuration;
+        private readonly IDbConnection _interviewScheduleConnection;
 
-        public InterviewScheduleRepository(IConfiguration configuration)
+        public InterviewScheduleRepository(IDbConnection interviewScheduleConnection)
         {
-            _configuration = configuration;
-        }
-
-        private SqlConnection GetConnection()
-        {
-            return new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+            _interviewScheduleConnection = interviewScheduleConnection;
         }
 
         // INSERT
         public void Insert(InterviewSchedule model)
         {
-            using SqlConnection con = GetConnection();
-            using SqlCommand cmd = new SqlCommand("SP_InterviewSchedule_Insert", con);
-            cmd.CommandType = CommandType.StoredProcedure;
+            var parameters = new DynamicParameters();
+            parameters.Add("@UserId", model.UserId);
+            parameters.Add("@InterviewTitle", model.InterviewTitle);
+            parameters.Add("@InterviewDateTime", model.InterviewDateTime);
+            parameters.Add("@InterviewBy", model.InterviewBy);
+            parameters.Add("@Status", model.Status);
 
-            cmd.Parameters.AddWithValue("@UserId", model.UserId);
-            cmd.Parameters.AddWithValue("@InterviewTitle", model.InterviewTitle);
-            cmd.Parameters.AddWithValue("@InterviewDateTime", model.InterviewDateTime);
-            cmd.Parameters.AddWithValue("@InterviewBy", model.InterviewBy);
-            cmd.Parameters.AddWithValue("@Status", model.Status);
-
-            con.Open();
-            cmd.ExecuteNonQuery();
+            _interviewScheduleConnection.Execute(
+                "SP_InterviewSchedule_Insert",
+                parameters,
+                commandType: CommandType.StoredProcedure
+            );
         }
 
         // UPDATE
         public void Update(InterviewSchedule model)
         {
-            using SqlConnection con = GetConnection();
-            using SqlCommand cmd = new SqlCommand("SP_InterviewSchedule_Update", con);
-            cmd.CommandType = CommandType.StoredProcedure;
+            var parameters = new DynamicParameters();
+            parameters.Add("@Id", model.Id);
+            parameters.Add("@UserId", model.UserId);
+            parameters.Add("@InterviewTitle", model.InterviewTitle);
+            parameters.Add("@InterviewDateTime", model.InterviewDateTime);
+            parameters.Add("@InterviewBy", model.InterviewBy);
+            parameters.Add("@Status", model.Status);
+            parameters.Add("@Comments", model.Comments);
+            parameters.Add("@RecordingPath", model.RecordingPath);
 
-            cmd.Parameters.AddWithValue("@Id", model.Id);
-            cmd.Parameters.AddWithValue("@UserId", model.UserId);
-            cmd.Parameters.AddWithValue("@InterviewTitle", model.InterviewTitle);
-            cmd.Parameters.AddWithValue("@InterviewDateTime", model.InterviewDateTime);
-            cmd.Parameters.AddWithValue("@InterviewBy", model.InterviewBy);
-            cmd.Parameters.AddWithValue("@Status", model.Status);
-            cmd.Parameters.AddWithValue("@Comments", model.Comments ?? (object)DBNull.Value);
-            cmd.Parameters.AddWithValue("@RecordingPath", model.RecordingPath ?? (object)DBNull.Value);
-
-            con.Open();
-            cmd.ExecuteNonQuery();
+            _interviewScheduleConnection.Execute(
+                "SP_InterviewSchedule_Update",
+                parameters,
+                commandType: CommandType.StoredProcedure
+            );
         }
 
         // DELETE
         public void Delete(int id)
         {
-            using SqlConnection con = GetConnection();
-            using SqlCommand cmd = new SqlCommand("SP_InterviewSchedule_Delete", con);
-            cmd.CommandType = CommandType.StoredProcedure;
+            var parameters = new DynamicParameters();
+            parameters.Add("@Id", id);
 
-            cmd.Parameters.AddWithValue("@Id", id);
-
-            con.Open();
-            cmd.ExecuteNonQuery();
+            _interviewScheduleConnection.Execute(
+                "SP_InterviewSchedule_Delete",
+                parameters,
+                commandType: CommandType.StoredProcedure
+            );
         }
 
         // SELECT
         public List<InterviewSchedule> GetByUserId(int userId)
         {
-            List<InterviewSchedule> list = new();
+            var parameters = new DynamicParameters();
+            parameters.Add("@UserId", userId);
 
-            using SqlConnection con = GetConnection();
-            using SqlCommand cmd = new SqlCommand("SP_InterviewSchedule_Select", con);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@UserId", userId);
-
-            con.Open();
-            using SqlDataReader dr = cmd.ExecuteReader();
-            while (dr.Read())
-            {
-                list.Add(new InterviewSchedule
-                {
-                    Id = Convert.ToInt32(dr["Id"]),
-                    UserId = Convert.ToInt32(dr["UserId"]),
-                    InterviewTitle = dr["InterviewTitle"].ToString(),
-                    InterviewDateTime = Convert.ToDateTime(dr["InterviewDateTime"]),
-                    InterviewBy = dr["InterviewBy"].ToString(),
-                    Status = dr["Status"] == DBNull.Value ? 0 : Convert.ToInt32(dr["Status"]),
-                    Comments = dr["Comments"]?.ToString(),
-                    RecordingPath = dr["RecordingPath"]?.ToString()
-                });
-            }
-            return list;
+            return _interviewScheduleConnection.Query<InterviewSchedule>(
+                "SP_InterviewSchedule_Select",
+                parameters,
+                commandType: CommandType.StoredProcedure
+            ).ToList();
         }
     }
 }

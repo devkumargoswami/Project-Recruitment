@@ -4,9 +4,9 @@ namespace Project_Recruitment.Interface
 {
     public interface IEducationLevelRepository
     {
-        int Insert(EducationLevelEntity entity);
-        EducationLevelEntity GetById(int id);
-        int Update(EducationLevelEntity entity);
-        int Delete(int id);
+        public int Insert(EducationLevelEntity entity);
+        public EducationLevelEntity GetById(int id);
+        public int Update(EducationLevelEntity entity);
+        public int Delete(int id);
     }
 }
