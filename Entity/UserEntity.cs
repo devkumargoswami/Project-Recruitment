@@ -7,15 +7,9 @@ namespace Project_Recruitment.Entity
     [Table("User")]
     public class UserEntity
     {
-        // =========================
-        // PRIMARY KEY
-        // =========================
         [Key]
         public int Id { get; set; }
 
-        // =========================
-        // REQUIRED FIELDS
-        // =========================
         [Required, MaxLength(50)]
         public string Username { get; set; }
 
@@ -31,25 +25,15 @@ namespace Project_Recruitment.Entity
         [Required, MaxLength(20)]
         public string LastName { get; set; }
 
-        [Required]
-        [Column("DataOfBirth")]
-        public DateTime DateOfBirth { get; set; }
-
-        [Required]
-        public int RoleId { get; set; }
-
-        [Required]
-        [Column(TypeName = "decimal(12,2)")]
-        public decimal OfferCTC { get; set; }
-
-        // =========================
-        // OPTIONAL FIELDS
-        // =========================
         [MaxLength(20)]
         public string Gender { get; set; }
 
         [Column("Phonenumber")]
         public long? PhoneNumber { get; set; }
+
+        [Required]
+        [Column("DataOfBirth")]
+        public DateTime DateOfBirth { get; set; }
 
         [MaxLength(500)]
         public string Address { get; set; }
@@ -61,14 +45,18 @@ namespace Project_Recruitment.Entity
         [MaxLength(50)]
         public string City { get; set; }
 
+        [Required]
+        public int RoleId { get; set; }
+        
+        [Required]
+        [Column(TypeName = "decimal(12,2)")]
+        public decimal OfferCTC { get; set; }
+
         public int? InterviewStatus { get; set; }
 
         [Column(TypeName = "decimal(4,1)")]
         public decimal? TotalExperience { get; set; }
 
-        // =========================
-        // SYSTEM
-        // =========================
         public DateTime CreatedDateTime { get; set; }
     }
 }

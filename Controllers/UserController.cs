@@ -17,31 +17,25 @@ namespace Project_Recruitment.Controllers
         }
 
         // =========================
-        // INSERT USER
+        // INSERT USER (TEST MODE - NO DB)
         // =========================
         [HttpPost("insert")]
         public IActionResult InsertUser([FromBody] UserEntity user)
         {
             if (user == null)
-                return BadRequest("User data is required");
-
-            try
-            {
-                _repository.AddUser(user);
-                return Ok(new
-                {
-                    Status = 1,
-                    Message = "User inserted successfully"
-                });
-            }
-            catch (Exception ex)
-            {
                 return BadRequest(new
                 {
                     Status = 0,
-                    Message = ex.Message
+                    Message = "User data is required"
                 });
-            }
+             _repository.AddUser(user);
+
+
+            return Ok(new
+            {
+                Status = 1,
+                Message = "Test mode enabled. User data received successfully"
+            });
         }
 
         // =========================
@@ -51,7 +45,11 @@ namespace Project_Recruitment.Controllers
         public IActionResult UpdateUser([FromBody] UserEntity user)
         {
             if (user == null || user.Id <= 0)
-                return BadRequest("Valid User Id is required");
+                return BadRequest(new
+                {
+                    Status = 0,
+                    Message = "Valid User Id is required"
+                });
 
             try
             {
@@ -79,7 +77,11 @@ namespace Project_Recruitment.Controllers
         public IActionResult DeleteUser(int id)
         {
             if (id <= 0)
-                return BadRequest("Valid User Id is required");
+                return BadRequest(new
+                {
+                    Status = 0,
+                    Message = "Valid User Id is required"
+                });
 
             try
             {
@@ -128,7 +130,11 @@ namespace Project_Recruitment.Controllers
         public IActionResult Login([FromBody] UserLoginDTO login)
         {
             if (login == null)
-                return BadRequest("Login data is required");
+                return BadRequest(new
+                {
+                    Status = 0,
+                    Message = "Login data is required"
+                });
 
             try
             {
@@ -141,7 +147,7 @@ namespace Project_Recruitment.Controllers
                         Message = "Invalid email or password"
                     });
 
-                user.Password = null; // security
+                user.Password = null; // hide password
 
                 return Ok(new
                 {
@@ -167,7 +173,11 @@ namespace Project_Recruitment.Controllers
         public IActionResult UpdatePassword([FromBody] UpdatePasswordDTO dto)
         {
             if (dto == null || dto.UserId <= 0)
-                return BadRequest("Invalid request");
+                return BadRequest(new
+                {
+                    Status = 0,
+                    Message = "Invalid request"
+                });
 
             try
             {
