@@ -16,7 +16,7 @@ namespace Project_Recruitment.Business
         }
 
         // REGISTER USER
-        public int RegisterUser(UserRegisterEntity user)
+        public int RegisterUser(UserEntity user)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Username", user.Username);
@@ -24,12 +24,13 @@ namespace Project_Recruitment.Business
             parameters.Add("@Email", user.Email);
             parameters.Add("@FirstName", user.FirstName);
             parameters.Add("@LastName", user.LastName);
+            parameters.Add("@Phonenumber", user.PhoneNumber);
             parameters.Add("@DateOfBirth", user.DateOfBirth);
             parameters.Add("@OfferCTC", user.OfferCTC);
             parameters.Add("@RoleId", user.RoleId);
 
             int status = _db.QueryFirstOrDefault<int>(
-                "SP_User_Registration",
+                "SP_User_",
                 parameters,
                 commandType: CommandType.StoredProcedure
             );
