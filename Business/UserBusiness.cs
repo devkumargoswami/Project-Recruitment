@@ -7,11 +7,11 @@ namespace Project_Recruitment.Business
 {
     public class UserBusiness : IUserrepositery
     {
-        private readonly IDbConnection _db;
+        private readonly IDbConnection dbConnection;
 
-        public UserBusiness(IDbConnection db)
+        public UserBusiness(IDbConnection dbconnection)
         {
-            _db = db;
+            dbConnection = dbconnection;
         }
 
         public void AddUser(UserEntity user)
@@ -32,7 +32,7 @@ namespace Project_Recruitment.Business
             parameters.Add("@OfferCTC", user.OfferCTC);
             parameters.Add("@RoleId", user.RoleId);
 
-            _db.Execute("SP_User_Insert", parameters, commandType: CommandType.StoredProcedure);
+            dbConnection.Execute("SP_User_Insert", parameters, commandType: CommandType.StoredProcedure);
         
         }
 
@@ -49,7 +49,7 @@ namespace Project_Recruitment.Business
             parameters.Add("@LastName", user.LastName);
             parameters.Add("@RoleId", user.RoleId);
 
-            _db.Execute("SP_User_Update", parameters, commandType: CommandType.StoredProcedure);
+            dbConnection.Execute("SP_User_Update", parameters, commandType: CommandType.StoredProcedure);
         }
 
         public void DeleteUser(int id)
@@ -57,7 +57,7 @@ namespace Project_Recruitment.Business
             if (id <= 0)
                 throw new Exception("Invalid UserId");
 
-            _db.Execute(
+            dbConnection.Execute(
                 "SP_User_Delete",
                 new { Id = id },
                 commandType: CommandType.StoredProcedure
@@ -67,7 +67,7 @@ namespace Project_Recruitment.Business
  
         public IEnumerable<UserEntity> GetUsers()
         {
-            return _db.Query<UserEntity>("SELECT * FROM [User]");
+            return dbConnection.Query<UserEntity>("SELECT * FROM [User]");
         }
 
      
@@ -77,7 +77,7 @@ namespace Project_Recruitment.Business
             parameters.Add("@Email", email);
             parameters.Add("@Password", password);
 
-            return _db.QueryFirstOrDefault<UserEntity>(
+            return dbConnection.QueryFirstOrDefault<UserEntity>(
                 "SP_User_Login",
                 parameters,
                 commandType: CommandType.StoredProcedure
@@ -92,7 +92,7 @@ namespace Project_Recruitment.Business
             parameters.Add("@ConfirmPassword", confirmPassword);
             parameters.Add("@ReturnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
 
-            _db.Execute("SP_Forgot_Password", parameters, commandType: CommandType.StoredProcedure);
+            dbConnection.Execute("SP_Forgot_Password", parameters, commandType: CommandType.StoredProcedure);
 
             int result = parameters.Get<int>("@ReturnValue");
 

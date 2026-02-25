@@ -93,12 +93,20 @@ namespace Project_Recruitment.Controllers
                 if (loggedInUser == null)
                     return Unauthorized("Invalid email or password");
 
-                loggedInUser.Password = null;
-                return Ok(loggedInUser);
+                return Ok(new
+                {
+                    success = true,
+                    user = loggedInUser
+                });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Login failed: {ex.Message}");
+                return StatusCode(500, new
+                {
+                    success = false,
+                    message = "Login failed",
+                    error = ex.Message
+                });
             }
         }
 
