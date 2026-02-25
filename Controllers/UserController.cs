@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Project_Recruitment.Entity;
-using Project_Recruitment.Interface;
 using Project_Recruitment.DTOs;
+using Project_Recruitment.Interface;
 
 namespace Project_Recruitment.Controllers
 {

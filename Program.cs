@@ -25,7 +25,7 @@ builder.Services.AddScoped<IDbConnection>(sp =>
 // DEPENDENCY INJECTION
 // =========================
 builder.Services.AddScoped<IUserrepositery, UserBusiness>();
-builder.Services.AddScoped<IRegisterRepository, UserRegisterBusiness>();
+builder.Services.AddScoped<IUserRegisterRepository, UserRegisterBusiness>();
 
 builder.Services.AddScoped<IUserEducationRepository, UserEducationBusiness>();
 builder.Services.AddScoped<IEducationLevelRepository, EducationLevelBusiness>();

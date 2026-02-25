@@ -8,22 +8,22 @@ namespace Project_Recruitment.Controllers
     [ApiController]
     public class UserRegisterController : ControllerBase
     {
-        private readonly IRegisterRepository RegistersRepository;
+        private readonly IUserRegisterRepository _registerRepository;
 
-        public UserRegisterController(IRegisterRepository RegisterRepository)
+        public UserRegisterController(IUserRegisterRepository registerRepository)
         {
-            RegistersRepository = RegisterRepository;
+            _registerRepository = registerRepository;
         }
 
         [HttpPost("register")]
-        public IActionResult RegisterUser(UserEntity user)
+        public async Task<IActionResult> RegisterUser(UserRegisterEntity user)
         {
             try
             {
                 if (user == null)
-                    return BadRequest(new { Message = "Invalid user data" });
+                    return BadRequest(new { Status = false, Message = "Invalid user data" });
 
-                var status = RegistersRepository.RegisterUser(user);
+                int status = await _registerRepository.RegisterUser(user);
 
                 if (status == 1)
                 {
@@ -33,12 +33,20 @@ namespace Project_Recruitment.Controllers
                         Message = "User Registered Successfully"
                     });
                 }
-                else
+                else if (status == 0)
                 {
                     return BadRequest(new
                     {
                         Status = false,
                         Message = "Username or Email already exists"
+                    });
+                }
+                else
+                {
+                    return StatusCode(500, new
+                    {
+                        Status = false,
+                        Message = "Something went wrong"
                     });
                 }
             }
