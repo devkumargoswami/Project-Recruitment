@@ -31,7 +31,6 @@ namespace Project_Recruitment.Business
             parameters.Add("@Address", user.Address);
             parameters.Add("@CountryId", user.CountryId);
             parameters.Add("@StateId", user.StateId);
-            parameters.Add("@OfferCTC", user.OfferCTC);
             parameters.Add("@RoleId", user.RoleId);
             parameters.Add("@TotalExperience", user.TotalExperience);
 
