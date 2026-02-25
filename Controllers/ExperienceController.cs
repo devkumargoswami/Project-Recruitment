@@ -21,7 +21,7 @@ namespace Project_Recruitment.Controllers
             try
             {
                experience.InsertExperience(dto);
-                return Ok("Experience inserted successfully");
+               return Ok("Experience inserted successfully");
             }
             catch (Exception ex)
             {

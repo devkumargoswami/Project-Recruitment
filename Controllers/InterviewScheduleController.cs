@@ -8,38 +8,67 @@ namespace Project_Recruitment.Controllers
     [ApiController]
     public class InterviewScheduleController : ControllerBase
     {
-        private readonly IInterviewScheduleRepository _repo;
+        private readonly IInterviewScheduleRepository InterviewScheduleRepository;
 
-        public InterviewScheduleController(IInterviewScheduleRepository repo)
+        public InterviewScheduleController(IInterviewScheduleRepository interviewScheduleRepository)
         {
-            _repo = repo;
+            InterviewScheduleRepository = interviewScheduleRepository;
         }
 
         [HttpPost("insert")]
         public IActionResult Insert(InterviewSchedule model)
         {
-            _repo.Insert(model);
-            return Ok("Interview Scheduled Successfully");
+            try
+            {
+                InterviewScheduleRepository.Insert(model);
+                return Ok("Interview Scheduled Successfully");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpPut("update")]
         public IActionResult Update(InterviewSchedule model)
         {
-            _repo.Update(model);
-            return Ok("Interview Updated Successfully");
+            try
+            {
+                InterviewScheduleRepository.Update(model);
+                return Ok("Interview Updated Successfully");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpDelete("delete/{id}")]
         public IActionResult Delete(int id)
         {
-            _repo.Delete(id);
-            return Ok("Interview Deleted Successfully");
+            try
+            {
+                InterviewScheduleRepository.Delete(id);
+                return Ok("Interview Deleted Successfully");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpGet("get/{userId}")]
         public IActionResult Get(int userId)
         {
-            return Ok(_repo.GetByUserId(userId));
+            try
+            {
+                var result = InterviewScheduleRepository.GetByUserId(userId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }

@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Project_Recruitment.Entity;
-using Project_Recruitment.Interface;
-using Project_Recruitment.Entity;
 using Project_Recruitment.DTOs;
+using Project_Recruitment.Interface;
 
 namespace Project_Recruitment.Controllers
 {
@@ -18,60 +17,95 @@ namespace Project_Recruitment.Controllers
         }
 
         // =========================
-        // INSERT USER
+        // INSERT USER (TEST MODE - NO DB)
         // =========================
-        [HttpPost("addUser")]
-        public IActionResult AddUser([FromBody] UserEntity user)
+        [HttpPost("insert")]
+        public IActionResult InsertUser([FromBody] UserEntity user)
         {
-            try
+            if (user == null)
+                return BadRequest(new
+                {
+                    Status = 0,
+                    Message = "User data is required"
+                });
+             _repository.AddUser(user);
+
+
+            return Ok(new
             {
-                _repository.AddUser(user);
-                return Ok(new { message = "User inserted successfully" });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { error = ex.Message });
-            }
+                Status = 1,
+                Message = "Test mode enabled. User data received successfully"
+            });
         }
 
         // =========================
         // UPDATE USER
         // =========================
-        [HttpPut("updateUser")]
+        [HttpPut("update")]
         public IActionResult UpdateUser([FromBody] UserEntity user)
         {
+            if (user == null || user.Id <= 0)
+                return BadRequest(new
+                {
+                    Status = 0,
+                    Message = "Valid User Id is required"
+                });
+
             try
             {
                 _repository.UpdateUser(user);
-                return Ok(new { message = "User updated successfully" });
+                return Ok(new
+                {
+                    Status = 1,
+                    Message = "User updated successfully"
+                });
             }
             catch (Exception ex)
             {
-                return BadRequest(new { error = ex.Message });
+                return BadRequest(new
+                {
+                    Status = 0,
+                    Message = ex.Message
+                });
             }
         }
 
         // =========================
         // DELETE USER
         // =========================
-        [HttpDelete("deleteUser/{id}")]
+        [HttpDelete("delete/{id}")]
         public IActionResult DeleteUser(int id)
         {
+            if (id <= 0)
+                return BadRequest(new
+                {
+                    Status = 0,
+                    Message = "Valid User Id is required"
+                });
+
             try
             {
                 _repository.DeleteUser(id);
-                return Ok(new { message = "User deleted successfully" });
+                return Ok(new
+                {
+                    Status = 1,
+                    Message = "User deleted successfully"
+                });
             }
             catch (Exception ex)
             {
-                return BadRequest(new { error = ex.Message });
+                return BadRequest(new
+                {
+                    Status = 0,
+                    Message = ex.Message
+                });
             }
         }
 
         // =========================
-        // GET USERS
+        // GET ALL USERS
         // =========================
-        [HttpGet("getUsers")]
+        [HttpGet("list")]
         public IActionResult GetUsers()
         {
             try
@@ -81,17 +115,39 @@ namespace Project_Recruitment.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { error = ex.Message });
+                return StatusCode(500, new
+                {
+                    Status = 0,
+                    Message = ex.Message
+                });
             }
         }
+
+        // =========================
+        // LOGIN
+        // =========================
         [HttpPost("login")]
         public IActionResult Login([FromBody] UserLoginDTO login)
         {
+            if (login == null)
+                return BadRequest(new
+                {
+                    Status = 0,
+                    Message = "Login data is required"
+                });
+
             try
             {
-                var loggedInUser = _repository.Login(login.Email, login.Password);
-                if (loggedInUser == null)
-                    return Unauthorized("Invalid email or password");
+                var user = _repository.Login(login.Email, login.Password);
+
+                if (user == null)
+                    return Unauthorized(new
+                    {
+                        Status = 0,
+                        Message = "Invalid email or password"
+                    });
+
+                user.Password = null; // hide password
 
                 return Ok(new
                 {
@@ -110,20 +166,36 @@ namespace Project_Recruitment.Controllers
             }
         }
 
-        [HttpPost("updatePassword")]
+        // =========================
+        // UPDATE PASSWORD
+        // =========================
+        [HttpPost("update-password")]
         public IActionResult UpdatePassword([FromBody] UpdatePasswordDTO dto)
         {
+            if (dto == null || dto.UserId <= 0)
+                return BadRequest(new
+                {
+                    Status = 0,
+                    Message = "Invalid request"
+                });
+
             try
             {
                 _repository.UpdatePassword(dto.UserId, dto.NewPassword, dto.ConfirmPassword);
-                return Ok("Password updated successfully");
+                return Ok(new
+                {
+                    Status = 1,
+                    Message = "Password updated successfully"
+                });
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new
+                {
+                    Status = 0,
+                    Message = ex.Message
+                });
             }
         }
     }
 }
-
-       
