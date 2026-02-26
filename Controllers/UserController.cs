@@ -152,7 +152,6 @@ namespace Project_Recruitment.Controllers
                 return Ok(new
                 {
                     success = true,
-                    user = loggedInUser
                 });
             }
             catch (Exception ex)
