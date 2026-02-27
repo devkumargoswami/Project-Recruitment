@@ -13,7 +13,7 @@ namespace Project_Recruitment.Interface
 
 
         // Login user
-        public UserEntity Login(string email, string password);
+        public UserEntity Login(string email,int RoleId, string password);
 
         // Update user password
         public void UpdatePassword(int userId, string newPassword, string confirmPassword);

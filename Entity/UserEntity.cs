@@ -10,8 +10,6 @@ namespace Project_Recruitment.Entity
         [Key]
         public int Id { get; set; }
 
-        public int Id { get; set; }
-
         [Required]
         [MaxLength(50)]
         public string Username { get; set; }

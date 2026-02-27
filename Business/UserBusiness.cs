@@ -106,10 +106,11 @@ namespace Project_Recruitment.Business
         // =========================
         // LOGIN
         // =========================
-        public UserEntity Login(string email, string password)
+        public UserEntity Login(string email,int RoleID, string password)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Email", email);
+            parameters.Add("@RoleId", RoleID);
             parameters.Add("@Password", password);
 
             return dbConnection.QueryFirstOrDefault<UserEntity>(

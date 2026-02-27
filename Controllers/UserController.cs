@@ -138,21 +138,21 @@ namespace Project_Recruitment.Controllers
 
             try
             {
-                var user = _repository.Login(login.Email, login.Password);
+                var loginUser = _repository.Login(login.Email,login.RoleId, login.Password);
 
-                if (user == null)
+                if (loginUser == null)
                     return Unauthorized(new
                     {
                         Status = 0,
                         Message = "Invalid email or password"
                     });
 
-                user.Password = null; // hide password
+                loginUser.Password = null; // hide password
 
                 return Ok(new
                 {
                     success = true,
-                    user = loggedInUser
+                    user = loginUser
                 });
             }
             catch (Exception ex)
