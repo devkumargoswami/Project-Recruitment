@@ -16,7 +16,7 @@ namespace Project_Recruitment.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> RegisterUser(UserRegisterEntity user)
+        public async Task<IActionResult> RegisterUser([FromBody] UserRegisterEntity user)
         {
             try
             {
