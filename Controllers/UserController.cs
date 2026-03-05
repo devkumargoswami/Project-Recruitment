@@ -135,7 +135,7 @@ namespace Project_Recruitment.Controllers
                     Status = 0,
                     Message = "Login data is required"
                 });
-
+         
             try
             {
                 var loginUser = _repository.Login(login.Email,login.RoleId, login.Password);

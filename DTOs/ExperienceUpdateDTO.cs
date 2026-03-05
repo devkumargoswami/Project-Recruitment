@@ -1,7 +1,7 @@
-﻿namespace Project_Recruitment.DTOs
+namespace Project_Recruitment.DTOs
 {
     public class ExperienceUpdateDTO : ExperienceDTO
     {
-        public int ExperienceId { get; set; }
+        public int Id { get; set; }  // Angular sends 'id'
     }
 }

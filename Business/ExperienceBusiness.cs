@@ -26,20 +26,18 @@ namespace Project_Recruitment.Business
             parameters.Add("@EndDate", dto.EndDate);
             parameters.Add("@IsCurrent", dto.IsCurrent);
 
-            db.ExecuteAsync(
+            db.Execute(
                 "SP_Experience_Insert",
                 parameters,
                 commandType: CommandType.StoredProcedure
             );
-
-
         }
 
-        // UPDATE
-        public void  UpdateExperience(ExperienceUpdateDTO dto)
+        // UPDATE ✅ Fixed - dto.Id use kiya
+        public void UpdateExperience(ExperienceUpdateDTO dto)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@ExperienceId", dto.ExperienceId);
+            parameters.Add("@ExperienceId", dto.Id);  // ✅ dto.Id - Angular se 'id' aata hai
             parameters.Add("@UserId", dto.UserId);
             parameters.Add("@CompanyName", dto.CompanyName);
             parameters.Add("@Designation", dto.Designation);
@@ -48,7 +46,6 @@ namespace Project_Recruitment.Business
             parameters.Add("@IsCurrent", dto.IsCurrent);
 
             db.Execute("SP_Experience_Update", parameters, commandType: CommandType.StoredProcedure);
-
         }
 
         // DELETE
@@ -57,12 +54,11 @@ namespace Project_Recruitment.Business
             var parameters = new DynamicParameters();
             parameters.Add("@ExperienceId", experienceId);
 
-            db.ExecuteAsync(
+            db.Execute(
                 "SP_Experience_Delete",
                 parameters,
                 commandType: CommandType.StoredProcedure
             );
-
         }
 
         // SELECT
