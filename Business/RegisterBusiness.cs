@@ -33,6 +33,7 @@ namespace Project_Recruitment.Business
             parameters.Add("@StateId", user.StateId);
             parameters.Add("@RoleId", user.RoleId);
             parameters.Add("@TotalExperience", user.TotalExperience);
+            parameters.Add("@OfferCTC", user.OfferCTC);
 
 
             int status = await _db.QueryFirstOrDefaultAsync<int>(

@@ -16,5 +16,7 @@
         public int StateId { get; set; }
         public int TotalExperience { get; set; }
         public int RoleId { get; set; }
+        public decimal OfferCTC { get; set; }
+
     }
 }
