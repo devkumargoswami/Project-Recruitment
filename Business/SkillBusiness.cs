@@ -35,6 +35,23 @@ namespace Project_Recruitment.Business
             }
         }
 
+        public int UpdateSkill(SkillEntity skill)
+        {
+            using (SqlConnection con = GetConnection())
+            {
+                SqlCommand cmd = new SqlCommand("SP_Skill_Update", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@Id", skill.Id);
+                cmd.Parameters.AddWithValue("@UserId", skill.UserId);
+                cmd.Parameters.AddWithValue("@Name", skill.Name);
+
+                con.Open();
+
+                return Convert.ToInt32(cmd.ExecuteScalar());
+            }
+        }
+
         // SELECT
         public List<SkillEntity> GetSkill(int? id, int? userId)
         {
