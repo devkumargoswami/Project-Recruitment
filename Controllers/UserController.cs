@@ -138,7 +138,7 @@ namespace Project_Recruitment.Controllers
 
             try
             {
-                var loginUser = _repository.Login(login.Email,login.RoleId, login.Password);
+                var loginUser = _repository.Login(login.Email,login.Password);
 
                 if (loginUser == null)
                     return Unauthorized(new

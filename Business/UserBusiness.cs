@@ -106,20 +106,32 @@ namespace Project_Recruitment.Business
         // =========================
         // LOGIN
         // =========================
-        public UserEntity Login(string email,int RoleID, string password)
+        public UserEntity Login(string email, string password)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Email", email);
-            parameters.Add("@RoleId", RoleID);
             parameters.Add("@Password", password);
 
-            return dbConnection.QueryFirstOrDefault<UserEntity>(
+            var user = dbConnection.QueryFirstOrDefault<UserEntity>(
                 "SP_User_Login",
                 parameters,
                 commandType: CommandType.StoredProcedure
             );
-        }
 
+            if (user != null)
+            {
+                if (email.Equals("hries@gmail.com", StringComparison.OrdinalIgnoreCase))
+                {
+                    user.RoleId = 1; // HR
+                }
+                else
+                {
+                    user.RoleId = 4; // Candidate
+                }
+            }
+
+            return user;
+        }
         // =========================
         // UPDATE PASSWORD
         // =========================
