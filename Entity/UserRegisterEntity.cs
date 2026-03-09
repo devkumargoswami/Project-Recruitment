@@ -14,8 +14,9 @@
         public string Address { get; set; }
         public int CountryId { get; set; }
         public int StateId { get; set; }
-        public decimal OfferCTC { get; set; }
         public int TotalExperience { get; set; }
         public int RoleId { get; set; }
+        public decimal OfferCTC { get; set; }
+
     }
 }

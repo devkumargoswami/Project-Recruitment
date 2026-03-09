@@ -11,12 +11,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// ✅ CORS Configuration (FIXED)
+// ✅ CORS - Allow any port (development)
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularDev",
         policy => policy
-            .WithOrigins("http://localhost:4200") // Angular default port
+            .SetIsOriginAllowed(_ => true)  // ✅ Any port allow
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials());
@@ -32,7 +32,6 @@ builder.Services.AddScoped<IDbConnection>(sp =>
 // Dependency Injection
 builder.Services.AddScoped<IUserrepositery, UserBusiness>();
 builder.Services.AddScoped<IUserRegisterRepository, UserRegisterBusiness>();
-
 builder.Services.AddScoped<IUserEducationRepository, UserEducationBusiness>();
 builder.Services.AddScoped<IEducationLevelRepository, EducationLevelBusiness>();
 builder.Services.AddScoped<IExperience, ExperienceBusiness>();
@@ -56,7 +55,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// ✅ CORS must come BEFORE Authorization
+// ✅ CORS before Authorization
 app.UseCors("AllowAngularDev");
 
 app.UseAuthorization();

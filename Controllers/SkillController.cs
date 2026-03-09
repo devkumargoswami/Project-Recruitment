@@ -30,6 +30,23 @@ namespace Project_Recruitment.Controllers
             }
         }
 
+        [HttpPut("Update")]
+        public IActionResult Update(SkillEntity skill)
+        {
+            if (skill == null || skill.Id <= 0)
+                return BadRequest("Invalid skill data.");
+
+            try
+            {
+                skillsRepository.UpdateSkill(skill);
+                return Ok("Skill Updated Successfully");
+            }
+            catch
+            {
+                return StatusCode(500, "Error while updating skill.");
+            }
+        }
+
         // SELECT
         [HttpGet("Select")]
         public IActionResult Select(int? id, int? userId)
