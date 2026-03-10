@@ -9,5 +9,6 @@ namespace Project_Recruitment.Interface
         public string Update(ResultDTO model);
         public List<Result> GetByCandidate(int candidateId);
         public string Delete(int id);
+        public List<Result> GetAllResult();
     }
 }

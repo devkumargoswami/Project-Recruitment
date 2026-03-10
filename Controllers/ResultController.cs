@@ -74,5 +74,23 @@ namespace Project_Recruitment.Controllers
                 return StatusCode(500, "Error while deleting result.");
             }
         }
+
+        [HttpGet("GetAllResult")]
+        public IActionResult GetAllResult()
+        {
+            try
+            {
+                var data = ResultRepositry.GetAllResult();
+
+                if (data == null || !data.Any())
+                    return NotFound("No results found.");
+
+                return Ok(data);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Error while fetching results.");
+            }
+        }
     }
 }

@@ -90,5 +90,33 @@ namespace Project_Recruitment.Business
 
             return "Deleted Successfully";
         }
+
+        public List<Result> GetAllResult()
+        {
+            List<Result> list = new();
+
+            using SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+            using SqlCommand cmd = new SqlCommand("SP_Result_GetAll", con);
+
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            con.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                list.Add(new Result
+                {
+                    Result_id = Convert.ToInt32(reader["result_id"]),
+                    Candidate_id = Convert.ToInt32(reader["candidate_id"]),
+                    Technical_marks = Convert.ToInt32(reader["technical_marks"]),
+                    Hr_marks = Convert.ToInt32(reader["hr_marks"]),
+                    Total = Convert.ToInt32(reader["total"]),
+                    Status = reader["status"].ToString()
+                });
+            }
+
+            return list;
+        }
     }
 }
