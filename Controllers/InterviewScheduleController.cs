@@ -21,11 +21,22 @@ namespace Project_Recruitment.Controllers
             try
             {
                 InterviewScheduleRepository.Insert(model);
-                return Ok("Interview Scheduled Successfully");
+
+
+                return Ok(new
+                {
+                    success = true,
+                    message = "Interview Scheduled Successfully"
+                });
+
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode(500, new
+                {
+                    success = false,
+                    message = ex.Message
+                });
             }
         }
 
