@@ -8,5 +8,6 @@ namespace Project_Recruitment.Interface
         void Update(InterviewSchedule model);
         void Delete(int id);
         List<InterviewSchedule> GetByUserId(int userId);
+        public List<InterviewSchedule> GetAllInterview();
     }
 }

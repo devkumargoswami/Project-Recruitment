@@ -81,5 +81,19 @@ namespace Project_Recruitment.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpGet("get-all")]
+        public IActionResult GetAllSchedule()
+        {
+            try
+            {
+                var result = InterviewScheduleRepository.GetAllInterview();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

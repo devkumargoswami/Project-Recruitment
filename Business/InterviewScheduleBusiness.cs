@@ -78,5 +78,13 @@ namespace Project_Recruitment.Business
                 commandType: CommandType.StoredProcedure
             ).ToList();
         }
+
+        public List<InterviewSchedule> GetAllInterview()
+        {
+            return _interviewScheduleConnection.Query<InterviewSchedule>(
+                "SP_InterviewSchedule_GetAll",
+                commandType: CommandType.StoredProcedure
+            ).ToList();
+        }
     }
 }
