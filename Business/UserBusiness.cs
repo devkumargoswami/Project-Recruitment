@@ -135,25 +135,46 @@ namespace Project_Recruitment.Business
         // =========================
         // UPDATE PASSWORD
         // =========================
-        public void UpdatePassword(int userId, string newPassword, string confirmPassword)
+        public void UpdatePassword(int? userId, string? email, string newPassword, string confirmPassword)
         {
             var parameters = new DynamicParameters();
+
             parameters.Add("@UserId", userId);
+            parameters.Add("@Email", email);
             parameters.Add("@NewPassword", newPassword);
             parameters.Add("@ConfirmPassword", confirmPassword);
+
             parameters.Add("@ReturnValue",
                 dbType: DbType.Int32,
                 direction: ParameterDirection.ReturnValue);
 
-            dbConnection.Execute("SP_Forgot_Password", parameters, commandType: CommandType.StoredProcedure);
+            dbConnection.Execute(
+                "SP_Forgot_Password",
+                parameters,
+                commandType: CommandType.StoredProcedure);
 
             int result = parameters.Get<int>("@ReturnValue");
 
-            if (result == -1)
-                throw new Exception("Passwords do not match");
+            switch (result)
+            {
+                case -1:
+                    throw new Exception("Passwords do not match");
 
-            if (result != 1)
-                throw new Exception("Password update failed");
+                case -2:
+                    throw new Exception("UserId or Email is required");
+
+                case -3:
+                    throw new Exception("UserId not found");
+
+                case -4:
+                    throw new Exception("Email not found");
+
+                case 1:
+                    return;
+
+                default:
+                    throw new Exception("Password update failed");
+            }
         }
     }
 }
