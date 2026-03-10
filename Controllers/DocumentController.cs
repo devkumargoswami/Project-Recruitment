@@ -19,7 +19,7 @@ public class DocumentController : ControllerBase
         try
         {
             documentRepository.Insert(model);
-            return Ok("Document inserted successfully");
+            return Ok(new { message = "Document Inserted successfully" });
         }
         catch (Exception ex)
         {
@@ -51,7 +51,7 @@ public class DocumentController : ControllerBase
         try
         {
             documentRepository.Update(model);
-            return Ok("Document updated successfully");
+            return Ok(new { message = "Document Updated successfully" });
         }
         catch (Exception ex)
         {
@@ -65,7 +65,7 @@ public class DocumentController : ControllerBase
         try
         {
             documentRepository.Delete(id);
-            return Ok("Document deleted successfully");
+            return Ok(new { message = "Document Deleted successfully" });
         }
         catch (Exception ex)
         {

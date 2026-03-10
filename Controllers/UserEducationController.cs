@@ -21,7 +21,7 @@ namespace Project_Recruitment.Controllers
             try
             {
                 Educationrepository.Insert(education);
-                return Ok("Education inserted successfully");
+                return Ok(new { message = "Education Inserted successfully" });
             }
             catch (Exception ex)
             {
@@ -51,7 +51,7 @@ namespace Project_Recruitment.Controllers
                 int rows = Educationrepository.Update(education);
 
                 if (rows > 0)
-                    return Ok("Education updated successfully");
+                    return Ok(new { message = "Education updated successfully" });
 
                 return NotFound("Education not found or duplicate exists.");
             }
@@ -66,8 +66,8 @@ namespace Project_Recruitment.Controllers
         {
             try
             {
-                Educationrepository.Delete(id);
-                return Ok("Education deleted successfully");
+                Educationrepository.Delete(id); 
+                return Ok(new { message = "Education Deleted successfully" });
             }
             catch (Exception ex)
             {

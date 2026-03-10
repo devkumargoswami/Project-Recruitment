@@ -172,28 +172,31 @@ namespace Project_Recruitment.Controllers
         [HttpPost("update-password")]
         public IActionResult UpdatePassword([FromBody] UpdatePasswordDTO dto)
         {
-            if (dto == null || dto.UserId <= 0)
+            if (dto == null || (dto.UserId == null && string.IsNullOrEmpty(dto.Email)))
+            {
                 return BadRequest(new
                 {
-                    Status = 0,
-                    Message = "Invalid request"
+                    success = false,
+                    message = "UserId or Email is required"
                 });
+            }
 
             try
             {
-                _repository.UpdatePassword(dto.UserId, dto.NewPassword, dto.ConfirmPassword);
+                _repository.UpdatePassword(dto.UserId, dto.Email, dto.NewPassword, dto.ConfirmPassword);
+
                 return Ok(new
                 {
-                    Status = 1,
-                    Message = "Password updated successfully"
+                    success = true,
+                    message = "Password updated successfully"
                 });
             }
             catch (Exception ex)
             {
                 return BadRequest(new
                 {
-                    Status = 0,
-                    Message = ex.Message
+                    success = false,
+                    message = ex.Message
                 });
             }
         }
